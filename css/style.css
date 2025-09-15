@@ -245,4 +245,41 @@
   }
 }
 
-
+.timeline {
+  position: relative;
+  margin-left: 20px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 30px;
+  width: 3px;
+  height: 100%;
+  background: #00B87B; /* bleu moderne */
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+.timeline-icon {
+  position: relative;
+  z-index: 2;
+  margin-right: 20px;
+}
+.timeline-icon img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 3px solid #00B87B;
+}
+.timeline-content {
+  flex: 1;
+}
+.timeline-content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.timeline-content li {
+  margin-bottom: 5px;
+}
