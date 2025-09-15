@@ -256,7 +256,7 @@
   left: 30px;
   width: 3px;
   height: 100%;
-  background: #00B87B; /* bleu moderne */
+  background: white; /* bleu moderne */
 }
 .timeline-item {
   position: relative;
@@ -271,7 +271,7 @@
   width: 60px;
   height: 60px;
   object-fit: cover;
-  border: 3px solid #00B87B;
+  border: 3px solid white;
 }
 .timeline-content {
   flex: 1;
