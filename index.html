@@ -532,7 +532,55 @@
         </div>
         <p class="text-center mt-2">Interventions sur site — diagnostic et maintenance via connexion directe aux équipements (RJ45).</p>
     </div>
+    <!-- Projet -->
+<div class="col-12 mb-4 portfolio-item sixth">
+    <div class="project-gallery position-relative overflow-hidden mb-3">
+        <div class="row g-2">
+            <div class="col-md-4 col-sm-6">
+                <a href="img/vm.png" data-lightbox="projet">
+                    <img class="img-fluid rounded" src="img/vm.png" alt="Projet image 1">
+                </a>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <a href="img/dns creer .png" data-lightbox="projet">
+                    <img class="img-fluid rounded" src="img/dns creer .png" alt="Projet image 2">
+                </a>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <a href="img/dns dhcp.png" data-lightbox="projet">
+                    <img class="img-fluid rounded" src="img/dns dhcp.png" alt="Projet image 3">
+                </a>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <a href="img/glpi.png" data-lightbox="projet">
+                    <img class="img-fluid rounded" src="img/glpi.png" alt="Projet image 4">
+                </a>
+            </div>
+        </div>
+    </div>
+    <p class="text-center mt-3">
+        <strong>Projet – Suivi de stage (Semaine 1 à 4)</strong><br><br>
+        Ce projet vise à mettre en place un environnement complet de gestion du parc informatique à l’aide de 
+        <strong>GLPI</strong> et <strong>OCS Inventory</strong> sur une machine virtuelle Linux (Debian/Ubuntu).  
+        Durant les premières semaines, les principales étapes ont été réalisées avec succès :  
+        <br>– Semaine 1 : installation et configuration de GLPI, tentative d’intégration d’OCS Inventory, ajout d’un poste client et export d’un rapport d’inventaire.  
+        <br>– Semaine 2 : création d’un réseau virtuel (client–routeur–serveur), diagnostic d’incidents via <em>ping</em>, <em>tracert</em> et <em>Wireshark</em>, puis ouverture d’un ticket dans GLPI.  
+        <br>– Semaine 3 : mise en place des services de base <strong>DHCP</strong> et <strong>DNS</strong>, avec vérification du bon fonctionnement côté client.  
+        <br><br>
+        Une difficulté a été rencontrée lors de l’intégration d’<strong>OCS Inventory</strong> avec GLPI, en raison d’une incompatibilité entre 
+        <em>GLPI 10.x</em> et la version du <em>plugin OCSNG</em> disponible dans les dépôts (version 2.12).  
+        Cette différence de version empêche la communication automatique entre les deux outils.  
+        <br><br>
+        <strong>Solution envisagée :</strong>  
+        déployer une version d’<em>OCS Inventory 2.11</em> compatible avec GLPI 10, ou utiliser le connecteur alternatif <em>FusionInventory</em>, 
+        qui permet une intégration plus stable pour les remontées automatiques du parc matériel.  
+        <br><br>
+        À ce jour (semaine 4), le projet progresse conformément au plan initial.
+    </p>
 </div>
+
+</div>
+
 
         </div>
     </div>
