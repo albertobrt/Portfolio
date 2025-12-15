@@ -283,3 +283,88 @@
 .timeline-content li {
   margin-bottom: 5px;
 }
+.project-network {
+    background: var(--light);
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary);
+    margin: 20px 0;
+    color: var(--dark);
+}
+
+.project-network h2 {
+    color: var(--primary);
+    border-bottom: 2px solid #d9d9d9;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.project-network h3 {
+    color: var(--secondary);
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* TABLE */
+.table {
+    background: white;
+    border-collapse: collapse;
+}
+
+.table th {
+    background: var(--primary);
+    color: white;
+    padding: 12px;
+    border: none;
+}
+
+.table td {
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    color: var(--dark);
+}
+
+/* CODE BLOCK */
+pre {
+    background: var(--dark);
+    color: var(--light);
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    border-left: 4px solid var(--primary);
+}
+
+/* TESTS VALIDÉS */
+.tests .test-item {
+    background: rgba(0, 184, 123, 0.1); /* vert primaire transparent */
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border-left: 4px solid var(--primary);
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+/* SKILLS */
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.skill-badge {
+    background: var(--primary);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.skill-badge:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
