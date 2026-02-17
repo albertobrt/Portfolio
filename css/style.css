@@ -368,3 +368,21 @@ pre {
     background: var(--secondary);
     transform: translateY(-2px);
 }
+
+/* Image en cercle */
+.project-gallery img {
+    width: 160px;           /* taille du cercle */
+    height: 160px;
+    object-fit: cover;      /* évite déformation */
+    border-radius: 50%;     /* cercle */
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet au survol (optionnel mais joli) */
+.project-gallery img:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
