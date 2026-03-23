@@ -1038,55 +1038,53 @@ VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
 </div>
 
 <script>
-  async function loadRSSFeed() {
-    const query = "IA générative cybersécurité";
-    const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=fr&gl=FR&ceid=FR:fr`;
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+  async function loadNewsFeed() {
+    const apiKey = "184d4b02c89e42b4b64cd894b449b8da";
+    const url = `https://newsapi.org/v2/everything?q=intelligence+artificielle+cybersecurite&language=fr&sortBy=publishedAt&pageSize=6&apiKey=${apiKey}`;
+
+    const feed = document.getElementById("rss-feed");
 
     try {
-      const response = await fetch(proxyUrl);
+      const response = await fetch(url);
       const data = await response.json();
 
-      if (!data.contents) {
-        throw new Error("Pas de contenu reçu");
+      console.log("NewsAPI response:", data);
+
+      if (data.status === "error") {
+        throw new Error(data.message);
       }
 
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(data.contents, "text/xml");
-      const items = xml.querySelectorAll("item");
-
-      const feed = document.getElementById("rss-feed");
-
-      if (!items || items.length === 0) {
+      if (!data.articles || data.articles.length === 0) {
         feed.innerHTML = `<p class="text-muted">Aucun article trouvé.</p>`;
         return;
       }
 
-      const articles = Array.from(items).slice(0, 6);
-
-      feed.innerHTML = articles.map(item => {
-        const title = item.querySelector("title")?.textContent || "Sans titre";
-        const link = item.querySelector("link")?.textContent || "#";
-        const pubDate = item.querySelector("pubDate")?.textContent || "";
-        const description = item.querySelector("description")?.textContent
-          ?.replace(/<[^>]*>/g, "")
-          ?.substring(0, 120) + "..." || "";
-
-        const date = pubDate ? new Date(pubDate).toLocaleDateString("fr-FR", {
+      feed.innerHTML = data.articles.map(article => {
+        const date = new Date(article.publishedAt).toLocaleDateString("fr-FR", {
           day: "2-digit", month: "short", year: "numeric"
-        }) : "";
+        });
+
+        const description = article.description
+          ? article.description.substring(0, 120) + "..."
+          : "Pas de description disponible.";
+
+        const image = article.urlToImage
+          ? `<img src="${article.urlToImage}" class="card-img-top" style="height:140px;object-fit:cover;" onerror="this.style.display='none'">`
+          : "";
 
         return `
           <div class="col-md-6">
             <div class="card bg-dark border-secondary h-100 shadow-sm">
+              ${image}
               <div class="card-body">
                 <span class="badge bg-primary mb-2">🔐 Cybersécurité & IA</span>
-                <h6 class="card-title text-light">${title}</h6>
+                <h6 class="card-title text-light">${article.title}</h6>
                 <p class="card-text text-muted small">${description}</p>
+                <small class="text-muted">🗞️ ${article.source.name}</small>
               </div>
               <div class="card-footer d-flex justify-content-between align-items-center border-secondary">
                 <small class="text-muted">📅 ${date}</small>
-                <a href="${link}" target="_blank" class="btn btn-sm btn-outline-primary">Lire →</a>
+                <a href="${article.url}" target="_blank" class="btn btn-sm btn-outline-primary">Lire →</a>
               </div>
             </div>
           </div>
@@ -1095,13 +1093,11 @@ VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
 
     } catch (error) {
       console.error(error);
-      document.getElementById("rss-feed").innerHTML = `
-        <p class="text-danger">Erreur : ${error.message}</p>
-      `;
+      feed.innerHTML = `<p class="text-danger">Erreur : ${error.message}</p>`;
     }
   }
 
-  loadRSSFeed();
+  loadNewsFeed();
 </script>
     <!-- Sources -->
     <div class="pt-3 border-top">
