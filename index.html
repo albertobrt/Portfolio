@@ -1025,6 +1025,84 @@ VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
             pour automatiser la détection et la réponse aux incidents.
         </p>
     </div>
+    <!-- Flux RSS Veille Technologique -->
+<div class="mt-5 pt-4 border-top">
+  <h5 class="text-primary mb-4">📡 Actualités en direct – IA & Cybersécurité</h5>
+
+  <div id="rss-feed" class="row g-3">
+    <div class="text-center text-muted py-4">
+      <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+      Chargement des actualités...
+    </div>
+  </div>
+</div>
+
+<script>
+  async function loadRSSFeed() {
+    const query = "IA générative cybersécurité";
+    const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=fr&gl=FR&ceid=FR:fr`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+
+    try {
+      const response = await fetch(proxyUrl);
+      const data = await response.json();
+
+      if (!data.contents) {
+        throw new Error("Pas de contenu reçu");
+      }
+
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents, "text/xml");
+      const items = xml.querySelectorAll("item");
+
+      const feed = document.getElementById("rss-feed");
+
+      if (!items || items.length === 0) {
+        feed.innerHTML = `<p class="text-muted">Aucun article trouvé.</p>`;
+        return;
+      }
+
+      const articles = Array.from(items).slice(0, 6);
+
+      feed.innerHTML = articles.map(item => {
+        const title = item.querySelector("title")?.textContent || "Sans titre";
+        const link = item.querySelector("link")?.textContent || "#";
+        const pubDate = item.querySelector("pubDate")?.textContent || "";
+        const description = item.querySelector("description")?.textContent
+          ?.replace(/<[^>]*>/g, "")
+          ?.substring(0, 120) + "..." || "";
+
+        const date = pubDate ? new Date(pubDate).toLocaleDateString("fr-FR", {
+          day: "2-digit", month: "short", year: "numeric"
+        }) : "";
+
+        return `
+          <div class="col-md-6">
+            <div class="card bg-dark border-secondary h-100 shadow-sm">
+              <div class="card-body">
+                <span class="badge bg-primary mb-2">🔐 Cybersécurité & IA</span>
+                <h6 class="card-title text-light">${title}</h6>
+                <p class="card-text text-muted small">${description}</p>
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center border-secondary">
+                <small class="text-muted">📅 ${date}</small>
+                <a href="${link}" target="_blank" class="btn btn-sm btn-outline-primary">Lire →</a>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+    } catch (error) {
+      console.error(error);
+      document.getElementById("rss-feed").innerHTML = `
+        <p class="text-danger">Erreur : ${error.message}</p>
+      `;
+    }
+  }
+
+  loadRSSFeed();
+</script>
     <!-- Sources -->
     <div class="pt-3 border-top">
         <h6 class="text-muted">Sources :</h6>
