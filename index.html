@@ -1025,7 +1025,7 @@ VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
             pour automatiser la détection et la réponse aux incidents.
         </p>
     </div>
-    <!-- Flux RSS Veille Technologique -->
+     <!-- Flux RSS Veille Technologique -->
 <div class="mt-5 pt-4 border-top">
   <h5 class="text-primary mb-4">📡 Actualités en direct – IA & Cybersécurité</h5>
 
@@ -1038,38 +1038,33 @@ VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
 </div>
 
 <script>
-  async function loadNewsFeed() {
-    const apiKey = "184d4b02c89e42b4b64cd894b449b8da";
-    const url = `https://newsapi.org/v2/everything?q=intelligence+artificielle+cybersecurite&language=fr&sortBy=publishedAt&pageSize=6&apiKey=${apiKey}`;
-
+  async function loadGoogleNews() {
     const feed = document.getElementById("rss-feed");
 
+    const rssUrl = "https://news.google.com/rss/search?q=intelligence+artificielle+cybersecurite&hl=fr&gl=FR&ceid=FR:fr";
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=public&count=6`;
+
     try {
-      const response = await fetch(url);
+      const response = await fetch(apiUrl);
       const data = await response.json();
 
-      console.log("NewsAPI response:", data);
+      console.log("RSS2JSON response:", data);
 
-      if (data.status === "error") {
-        throw new Error(data.message);
+      if (!data.items || data.items.length === 0) {
+        throw new Error("Aucun article reçu");
       }
 
-      if (!data.articles || data.articles.length === 0) {
-        feed.innerHTML = `<p class="text-muted">Aucun article trouvé.</p>`;
-        return;
-      }
-
-      feed.innerHTML = data.articles.map(article => {
-        const date = new Date(article.publishedAt).toLocaleDateString("fr-FR", {
+      feed.innerHTML = data.items.map(item => {
+        const date = new Date(item.pubDate).toLocaleDateString("fr-FR", {
           day: "2-digit", month: "short", year: "numeric"
         });
 
-        const description = article.description
-          ? article.description.substring(0, 120) + "..."
+        const description = item.description
+          ? item.description.replace(/<[^>]*>/g, "").substring(0, 120) + "..."
           : "Pas de description disponible.";
 
-        const image = article.urlToImage
-          ? `<img src="${article.urlToImage}" class="card-img-top" style="height:140px;object-fit:cover;" onerror="this.style.display='none'">`
+        const image = item.thumbnail
+          ? `<img src="${item.thumbnail}" class="card-img-top" style="height:140px;object-fit:cover;" onerror="this.style.display='none'">`
           : "";
 
         return `
@@ -1078,13 +1073,13 @@ VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
               ${image}
               <div class="card-body">
                 <span class="badge bg-primary mb-2">🔐 Cybersécurité & IA</span>
-                <h6 class="card-title text-light">${article.title}</h6>
+                <h6 class="card-title text-light">${item.title}</h6>
                 <p class="card-text text-muted small">${description}</p>
-                <small class="text-muted">🗞️ ${article.source.name}</small>
+                <small class="text-muted">🗞️ ${item.author || "Google News"}</small>
               </div>
               <div class="card-footer d-flex justify-content-between align-items-center border-secondary">
                 <small class="text-muted">📅 ${date}</small>
-                <a href="${article.url}" target="_blank" class="btn btn-sm btn-outline-primary">Lire →</a>
+                <a href="${item.link}" target="_blank" class="btn btn-sm btn-outline-primary">Lire →</a>
               </div>
             </div>
           </div>
@@ -1093,11 +1088,21 @@ VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
 
     } catch (error) {
       console.error(error);
-      feed.innerHTML = `<p class="text-danger">Erreur : ${error.message}</p>`;
+
+      // Fallback : lien direct Google News
+      feed.innerHTML = `
+        <div class="col-12 text-center py-3">
+          <p class="text-warning mb-3">⚠️ Chargement automatique indisponible en local.</p>
+          <a href="https://news.google.com/search?q=IA+cybersécurité&hl=fr" 
+             target="_blank" class="btn btn-outline-primary">
+            🔗 Voir les actualités sur Google News
+          </a>
+        </div>
+      `;
     }
   }
 
-  loadNewsFeed();
+  loadGoogleNews();
 </script>
     <!-- Sources -->
     <div class="pt-3 border-top">
