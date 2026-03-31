@@ -970,6 +970,152 @@ VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
     </div>
 
 </div>
+<!-- Projet Routage -->
+
+<div class="col-12 mb-4 portfolio-item sixth">
+
+    <div class="project-network">
+
+        <!-- TITRE -->
+        <h2>🌐 Projet réseau : Routage IPv4 / IPv6 (Statique & Dynamique)</h2>
+
+        <!-- DESCRIPTION -->
+        <h3>📌 Présentation</h3>
+        <p>
+            Ce projet a pour objectif de mettre en place une infrastructure réseau simple
+            permettant la communication entre deux réseaux distincts à l’aide de deux routeurs.
+            Il met en œuvre un <strong>routage statique</strong> et un <strong>routage dynamique</strong>
+            en <strong>IPv4 et IPv6</strong>.
+        </p>
+
+        <!-- TOPOLOGIE -->
+        <h3>🔧 Topologie</h3>
+        <p>PC1 → Switch1 → R1 → R2 → Switch2 → PC2</p>
+
+        <!-- BRANCHEMENTS -->
+        <h3>🔌 Branchement des équipements</h3>
+        <ul>
+            <li>PC1 (Fa0) → Switch1 (Fa0/1)</li>
+            <li>Switch1 (Fa0/2) → R1 (G0/0)</li>
+            <li>R1 (G0/1) → R2 (G0/0)</li>
+            <li>R2 (G0/1) → Switch2 (Fa0/1)</li>
+            <li>Switch2 (Fa0/2) → PC2 (Fa0)</li>
+        </ul>
+
+        <!-- PLAN D'ADRESSAGE -->
+        <h3>📊 Plan d’adressage</h3>
+
+        <h4>IPv4</h4>
+        <table class="table table-bordered">
+            <tr><td>PC1</td><td>192.168.1.10</td></tr>
+            <tr><td>R1</td><td>192.168.1.1 / 10.0.0.1</td></tr>
+            <tr><td>R2</td><td>10.0.0.2 / 192.168.2.1</td></tr>
+            <tr><td>PC2</td><td>192.168.2.10</td></tr>
+        </table>
+
+        <h4>IPv6</h4>
+        <table class="table table-bordered">
+            <tr><td>PC1</td><td>2001:db8:1::10/64</td></tr>
+            <tr><td>R1</td><td>2001:db8:1::1 / 2001:db8:12::1</td></tr>
+            <tr><td>R2</td><td>2001:db8:12::2 / 2001:db8:2::1</td></tr>
+            <tr><td>PC2</td><td>2001:db8:2::10/64</td></tr>
+        </table>
+
+        <!-- CONFIG -->
+        <h3>⚙️ Configurations principales</h3>
+        <pre><code class="language-bash">
+interface g0/0
+ip address 192.168.1.1 255.255.255.0
+ipv6 address 2001:db8:1::1/64
+no shutdown
+
+interface g0/1
+ip address 10.0.0.1 255.255.255.0
+ipv6 address 2001:db8:12::1/64
+no shutdown
+
+ipv6 unicast-routing
+        </code></pre>
+
+        <!-- ROUTAGE -->
+        <h3>🌐 Routage</h3>
+
+        <h4>Statique</h4>
+        <pre><code class="language-bash">
+ip route 192.168.2.0 255.255.255.0 10.0.0.2
+ipv6 route 2001:db8:2::/64 2001:db8:12::2
+        </code></pre>
+
+        <h4>Dynamique (OSPF)</h4>
+        <pre><code class="language-bash">
+router ospf 1
+network 192.168.1.0 0.0.0.255 area 0
+        </code></pre>
+
+        <!-- TESTS -->
+        <h3>🧪 Tests</h3>
+        <div class="tests">
+            <div class="test-item">✅ Ping IPv4 OK</div>
+            <div class="test-item">✅ Ping IPv6 OK</div>
+            <div class="test-item">✅ Routage fonctionnel</div>
+        </div>
+
+        <!-- ERREURS -->
+        <h3>⚠️ Erreurs rencontrées / fréquentes</h3>
+        <ul>
+            <li>Oublier <code>no shutdown</code> → interface inactive</li>
+            <li>Mauvaise adresse IP ou masque</li>
+            <li>Mauvaise passerelle sur les PC</li>
+            <li>Erreur d’interface (G0/0 au lieu de G0/1)</li>
+            <li>Oublier <code>ipv6 unicast-routing</code></li>
+            <li>Mauvaise configuration OSPF</li>
+        </ul>
+
+        <!-- A RETENIR -->
+        <h3>🧠 Points à retenir</h3>
+        <ul>
+            <li>Le routage statique est simple mais peu flexible</li>
+            <li>Le routage dynamique est automatique et évolutif</li>
+            <li>Les routeurs assurent le routage, les switchs commutent</li>
+            <li>Toujours tester étape par étape (ping)</li>
+        </ul>
+
+        <!-- IPV6 -->
+        <h3>📌 Pourquoi /64 en IPv6 ?</h3>
+        <p>
+            Le préfixe <strong>/64</strong> est le standard en IPv6 pour les réseaux locaux.
+            Il permet d’avoir une séparation claire entre la partie réseau et la partie hôte,
+            et est obligatoire pour certaines fonctionnalités comme l’auto-configuration (SLAAC).
+        </p>
+
+        <!-- CONSEILS -->
+        <h3>🎯 Conseils pratiques</h3>
+        <ul>
+            <li>Configurer les IP avant le routage</li>
+            <li>Vérifier avec <code>show ip interface brief</code></li>
+            <li>Tester après chaque étape</li>
+            <li>Commencer par le routage statique puis passer au dynamique</li>
+        </ul>
+
+        <!-- COMPETENCES -->
+        <h3>🎯 Compétences développées</h3>
+        <div class="skills">
+            <span class="skill-badge">Routage IPv4 / IPv6</span>
+            <span class="skill-badge">OSPF</span>
+            <span class="skill-badge">Configuration Cisco</span>
+            <span class="skill-badge">Diagnostic réseau</span>
+        </div>
+
+        <!-- CONCLUSION -->
+        <h3>🧠 Conclusion</h3>
+        <p>
+            Ce projet m’a permis de comprendre en profondeur le fonctionnement du routage
+            en IPv4 et IPv6, ainsi que les différences entre configuration statique et dynamique.
+        </p>
+
+    </div>
+
+</div>
 
 
 
