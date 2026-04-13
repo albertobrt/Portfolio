@@ -1116,6 +1116,231 @@ network 192.168.1.0 0.0.0.255 area 0
     </div>
 
 </div>
+<div class="col-12 mb-4 portfolio-item">
+
+    <div class="project-network">
+
+        <!-- TITRE -->
+        <h2>🔐 Projet E6 SISR – Portail Captif pfSense pour forum stage/alternance</h2>
+
+        <!-- IMAGES DU PROJET -->
+        <div class="project-gallery mb-4">
+            <div class="row g-3">
+
+                <div class="col-12 col-md-6">
+                    <a href="img/portail_config.png" data-lightbox="projet-pfsense">
+                        <img class="img-fluid rounded w-100" src="img/portail_config.png" alt="Config portail captif">
+                    </a>
+                    <p class="text-center text-muted small">📸 Remplacer par : configuration du portail captif activé dans pfSense</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <a href="img/vouchers.png" data-lightbox="projet-pfsense">
+                        <img class="img-fluid rounded w-100" src="img/vouchers.png" alt="Vouchers générés">
+                    </a>
+                    <p class="text-center text-muted small">📸 Remplacer par : liste des vouchers/coupons générés dans pfSense</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <a href="img/portail_page.png" data-lightbox="projet-pfsense">
+                        <img class="img-fluid rounded w-100" src="img/portail_page.png" alt="Page du portail captif">
+                    </a>
+                    <p class="text-center text-muted small">📸 Remplacer par : page d'authentification du portail côté client</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <a href="img/acces_accorde.png" data-lightbox="projet-pfsense">
+                        <img class="img-fluid rounded w-100" src="img/acces_accorde.png" alt="Accès accordé">
+                    </a>
+                    <p class="text-center text-muted small">📸 Remplacer par : site accessible après saisie du voucher valide</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <a href="img/acces_refuse.png" data-lightbox="projet-pfsense">
+                        <img class="img-fluid rounded w-100" src="img/acces_refuse.png" alt="Accès refusé">
+                    </a>
+                    <p class="text-center text-muted small">📸 Remplacer par : message de blocage sans voucher</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <a href="img/session_active.png" data-lightbox="projet-pfsense">
+                        <img class="img-fluid rounded w-100" src="img/session_active.png" alt="Session active pfSense">
+                    </a>
+                    <p class="text-center text-muted small">📸 Remplacer par : session active dans Statut → Portail Captif</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CONTEXTE -->
+        <h3>📋 Contexte du projet</h3>
+        <p>
+            Dans le cadre du <strong>forum stage/alternance</strong> organisé par l'établissement,
+            des entreprises partenaires viennent rencontrer les élèves. Ces visiteurs ont besoin
+            d'un accès Internet dédié et sécurisé, isolé du réseau pédagogique interne.
+            La solution retenue est un <strong>portail captif pfSense</strong> avec authentification
+            par vouchers (clés d'accès temporaires chiffrées).
+        </p>
+
+        <!-- DÉFINITIONS -->
+        <h3>📖 Définitions clés</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Terme</th>
+                    <th>Définition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>pfSense</strong></td>
+                    <td>Pare-feu open source basé sur FreeBSD. Il permet de gérer les règles réseau, le NAT, le DHCP et les portails captifs via une interface web.</td>
+                </tr>
+                <tr>
+                    <td><strong>Portail captif</strong></td>
+                    <td>Mécanisme qui intercepte toute connexion HTTP d'un utilisateur et le redirige vers une page d'authentification avant de lui accorder l'accès Internet.</td>
+                </tr>
+                <tr>
+                    <td><strong>Voucher / Coupon</strong></td>
+                    <td>Code d'accès unique et temporaire généré par pfSense. Chaque code ne peut être utilisé qu'une seule fois et expire après une durée définie.</td>
+                </tr>
+                <tr>
+                    <td><strong>RSA</strong></td>
+                    <td>Algorithme de chiffrement asymétrique utilisant une paire de clés (publique et privée). pfSense l'utilise pour chiffrer et sécuriser les vouchers générés.</td>
+                </tr>
+                <tr>
+                    <td><strong>Clé publique</strong></td>
+                    <td>Clé utilisée pour vérifier et déchiffrer les vouchers lors de l'authentification. Elle est stockée dans pfSense et accessible à tous.</td>
+                </tr>
+                <tr>
+                    <td><strong>Clé privée</strong></td>
+                    <td>Clé secrète utilisée uniquement pour générer les vouchers chiffrés. Elle ne doit jamais être partagée.</td>
+                </tr>
+                <tr>
+                    <td><strong>NAT (Network Address Translation)</strong></td>
+                    <td>Mécanisme qui traduit les adresses IP privées du réseau local en adresse IP publique pour permettre l'accès à Internet.</td>
+                </tr>
+                <tr>
+                    <td><strong>DHCP</strong></td>
+                    <td>Protocole qui attribue automatiquement une adresse IP à chaque machine qui se connecte au réseau.</td>
+                </tr>
+                <tr>
+                    <td><strong>WAN</strong></td>
+                    <td>Interface côté Internet (réseau étendu). C'est par cette interface que pfSense reçoit la connexion du FAI.</td>
+                </tr>
+                <tr>
+                    <td><strong>LAN</strong></td>
+                    <td>Interface côté réseau local (réseau interne). C'est sur cette interface que sont connectés les visiteurs dans ce projet.</td>
+                </tr>
+                <tr>
+                    <td><strong>VMware</strong></td>
+                    <td>Logiciel de virtualisation permettant de créer et gérer des machines virtuelles. Utilisé ici pour simuler pfSense et le poste client.</td>
+                </tr>
+                <tr>
+                    <td><strong>Host-Only (VMnet1)</strong></td>
+                    <td>Mode réseau VMware qui crée un réseau isolé entre la VM et le PC hôte, sans accès direct à Internet. Utilisé pour le LAN visiteurs.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- OBJECTIF -->
+        <h3>🎯 Objectif</h3>
+        <p>
+            Mettre en place un réseau visiteurs contrôlé par un portail captif pfSense,
+            permettant de distribuer des clés d'accès uniques et sécurisées aux entreprises
+            le jour du forum, tout en protégeant le réseau interne de l'établissement.
+        </p>
+
+        <!-- ÉTAPES -->
+        <h3>🛠️ Étapes de réalisation</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Étape</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Installation et configuration de pfSense en VM (VMware)</td></tr>
+                <tr><td>2</td><td>Configuration des interfaces WAN (DHCP) et LAN visiteurs (192.168.204.254/24)</td></tr>
+                <tr><td>3</td><td>Activation du serveur DHCP sur le LAN visiteurs</td></tr>
+                <tr><td>4</td><td>Activation du portail captif sur l'interface LAN</td></tr>
+                <tr><td>5</td><td>Génération des clés RSA (512 bits) et création d'un rouleau de 20 vouchers</td></tr>
+                <tr><td>6</td><td>Création de la règle NAT sortant pour le réseau 192.168.204.0/24</td></tr>
+                <tr><td>7</td><td>Test depuis VM Debian : portail affiché, accès accordé avec voucher valide</td></tr>
+                <tr><td>8</td><td>Test de refus : accès bloqué sans voucher</td></tr>
+            </tbody>
+        </table>
+
+        <!-- ERREURS ET SOLUTIONS -->
+        <h3>⚠️ Erreurs rencontrées et solutions</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Erreur</th>
+                    <th>Cause</th>
+                    <th>Solution</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>WebGUI inaccessible (timeout)</td>
+                    <td>Carte réseau LAN pas en Host-Only</td>
+                    <td>Changer la carte LAN en VMnet1 dans VMware</td>
+                </tr>
+                <tr>
+                    <td>Config portail non sauvegardée</td>
+                    <td>Clés RSA manquantes dans l'onglet Coupons</td>
+                    <td>Générer les clés RSA via le bouton intégré pfSense</td>
+                </tr>
+                <tr>
+                    <td>openssl genrsa 64 → error setting RSA length</td>
+                    <td>Taille de clé trop petite pour OpenSSL récent</td>
+                    <td>Utiliser 512 bits : <code>openssl genrsa 512</code></td>
+                </tr>
+                <tr>
+                    <td>VM Debian pas redirigée vers le portail</td>
+                    <td>Carte réseau sur VMnet8 au lieu de VMnet1</td>
+                    <td>Changer la carte réseau en VMnet1 dans VMware</td>
+                </tr>
+                <tr>
+                    <td>Pas de passerelle par défaut sur Debian</td>
+                    <td>DHCP pfSense ne pousse pas la passerelle</td>
+                    <td><code>ip route add default via 192.168.204.254</code></td>
+                </tr>
+                <tr>
+                    <td>Ping OK mais Firefox ne charge pas</td>
+                    <td>network.proxy.type = 5 dans Firefox</td>
+                    <td>Dans about:config, mettre network.proxy.type à 0</td>
+                </tr>
+                <tr>
+                    <td>Pas de NAT pour le réseau visiteurs</td>
+                    <td>Règle NAT automatique absente pour 192.168.204.0/24</td>
+                    <td>Créer une règle NAT sortant en mode Hybride dans pfSense</td>
+                </tr>
+                <tr>
+                    <td>PC hôte redirigé vers tableau de bord</td>
+                    <td>pfSense reconnaît l'admin, ne lui applique pas le portail</td>
+                    <td>Tester depuis une VM cliente séparée (Debian/Windows)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- COMPÉTENCES -->
+        <h3>🎯 Compétences démontrées</h3>
+        <div class="skills">
+            <span class="skill-badge">Administration pfSense</span>
+            <span class="skill-badge">Portail Captif</span>
+            <span class="skill-badge">Génération de clés RSA</span>
+            <span class="skill-badge">Configuration NAT</span>
+            <span class="skill-badge">Virtualisation VMware</span>
+            <span class="skill-badge">Sécurisation réseau visiteurs</span>
+            <span class="skill-badge">Tests et dépannage réseau</span>
+        </div>
+
+    </div>
+
+</div>
 
 
 
