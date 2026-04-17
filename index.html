@@ -1,1527 +1,1548 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <met#aeb3b8et="utf-8">
-        <title>Alberto Portfolio</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="Free Website Template" name="keywords">
-        <meta content="Free Website Template" name="description">
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alberto LB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<link rel="icon" sizes="32x32" href="logo A.png">
+<link rel="icon" sizes="16x16" href="logo A.png">
+<link rel="apple-touch-icon" href="logo A.png">
+<style>
+  :root {
+    --bg: #080c14;
+    --surface: #0d1422;
+    --surface2: #131c2e;
+    --border: rgba(99,179,237,0.12);
+    --accent: #63b3ed;
+    --accent2: #7f5af0;
+    --accent3: #2cb67d;
+    --text: #e8edf5;
+    --muted: #6b7fa3;
+    --glow: rgba(99,179,237,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+  .cursor-follower {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(99,179,237,0.4);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.25s ease, width 0.3s, height 0.3s, background 0.3s;
+  }
+  body:has(a:hover) .cursor-follower,
+  body:has(button:hover) .cursor-follower {
+    width: 54px; height: 54px;
+    background: rgba(99,179,237,0.06);
+    border-color: var(--accent);
+    transform: translate(-50%, -50%) !important;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1; opacity: 0.4;
+  }
+
+  /* LAYOUT */
+  .layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: 100vh;
+    position: relative; z-index: 2;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    position: sticky;
+    top: 0; height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    padding: 48px 32px;
+    overflow: hidden;
+  }
+
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(127,90,240,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .avatar-wrap {
+    position: relative; width: 96px; height: 96px; margin-bottom: 24px;
+  }
+  .avatar-wrap::before {
+    content: '';
+    position: absolute; inset: -3px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent), var(--accent2), var(--accent3), var(--accent));
+    animation: spin 4s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .avatar-wrap img {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative; z-index: 1;
+    border: 3px solid var(--bg);
+  }
+  .avatar-placeholder {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    color: white;
+    position: relative; z-index: 1;
+    border: 3px solid var(--bg);
+  }
+
+  .sidebar h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem; font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .sidebar .role {
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(44,182,125,0.1);
+    border: 1px solid rgba(44,182,125,0.3);
+    border-radius: 100px;
+    padding: 5px 12px;
+    font-size: 0.72rem; color: var(--accent3);
+    font-weight: 500; margin-bottom: 32px;
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent3);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(44,182,125,0.6); }
+    50% { box-shadow: 0 0 0 6px rgba(44,182,125,0); }
+  }
+
+  /* NAV */
+  nav { display: flex; flex-direction: column; gap: 4px; margin-bottom: auto; }
+  nav a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    position: relative;
+  }
+  nav a i { width: 18px; text-align: center; font-size: 0.875rem; }
+  nav a:hover, nav a.active {
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+  }
+  nav a.active::before {
+    content: '';
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 60%;
+    background: var(--accent);
+    border-radius: 0 2px 2px 0;
+  }
+
+  .sidebar-footer {
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .social-links { display: flex; gap: 10px; }
+  .social-links a {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
+  .social-links a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(99,179,237,0.08);
+  }
+  .cv-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--accent);
+    color: #080c14;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+  }
+  .cv-btn:hover { background: #90cdf4; transform: translateY(-1px); }
+
+  /* ===== MAIN CONTENT ===== */
+  main {
+    padding: 64px 56px;
+    display: flex; flex-direction: column; gap: 96px;
+  }
+
+  /* SECTION TITLES */
+  .section-label {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 0.7rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent);
+    font-weight: 600; margin-bottom: 16px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem; font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .section-title span { color: var(--accent); }
+
+  /* ===== HERO ===== */
+  #about .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(99,179,237,0.05), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .stat-card:hover { border-color: rgba(99,179,237,0.4); transform: translateY(-3px); }
+  .stat-card:hover::before { opacity: 1; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label { font-size: 0.82rem; color: var(--muted); }
+
+  /* ABOUT TEXT */
+  .about-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #9aafc8;
+    max-width: 680px;
+  }
+  .about-text strong { color: var(--text); font-weight: 500; }
+
+  /* ===== SKILLS ===== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .skill-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: all 0.25s;
+  }
+  .skill-item:hover { border-color: rgba(99,179,237,0.35); }
+  .skill-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 12px;
+  }
+  .skill-name { font-size: 0.85rem; font-weight: 500; color: var(--text); }
+  .skill-pct { font-size: 0.78rem; color: var(--accent); font-weight: 600; }
+  .skill-bar {
+    height: 4px; background: var(--surface2);
+    border-radius: 100px; overflow: hidden;
+  }
+  .skill-fill {
+    height: 100%; border-radius: 100px;
+    animation: growBar 1.2s ease-out forwards;
+    transform-origin: left;
+  }
+  @keyframes growBar { from { width: 0; } }
+  .fill-blue { background: linear-gradient(90deg, var(--accent), #90cdf4); }
+  .fill-purple { background: linear-gradient(90deg, var(--accent2), #b794f4); }
+  .fill-green { background: linear-gradient(90deg, var(--accent3), #68d391); }
+  .fill-orange { background: linear-gradient(90deg, #ed8936, #f6ad55); }
+
+  /* ===== TIMELINE EXPERIENCE ===== */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 24px;
+    padding-bottom: 40px;
+    position: relative;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-left {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .tl-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(99,179,237,0.25);
+    flex-shrink: 0;
+    margin-top: 4px;
+    position: relative; z-index: 1;
+  }
+  .tl-line {
+    flex: 1; width: 1px;
+    background: var(--border);
+    margin-top: 8px;
+  }
+  .tl-item:last-child .tl-line { display: none; }
+  .tl-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    transition: all 0.25s;
+  }
+  .tl-content:hover { border-color: rgba(99,179,237,0.35); transform: translateX(4px); }
+  .tl-meta {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .tl-date {
+    font-size: 0.72rem; letter-spacing: 0.1em;
+    color: var(--accent); font-weight: 600;
+    background: rgba(99,179,237,0.1);
+    padding: 3px 10px; border-radius: 100px;
+    text-transform: uppercase;
+  }
+  .tl-company { font-size: 0.78rem; color: var(--muted); }
+  .tl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    color: #fff; margin-bottom: 12px;
+  }
+  .tl-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tl-tag {
+    font-size: 0.72rem; padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .tl-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .tl-list li {
+    font-size: 0.84rem; color: #8a9ab8;
+    padding-left: 14px; position: relative;
+  }
+  .tl-list li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--accent); font-size: 0.7rem;
+  }
+
+  /* ===== PROJECTS ===== */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .project-card.full-width { grid-column: 1 / -1; }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: rgba(99,179,237,0.4); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .project-card:hover::before { opacity: 1; }
+  .project-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 700;
+    color: #fff; margin-bottom: 10px;
+  }
+  .project-desc {
+    font-size: 0.84rem; color: var(--muted);
+    line-height: 1.65; margin-bottom: 18px;
+  }
+  .project-badges { display: flex; flex-wrap: wrap; gap: 7px; }
+  .badge {
+    font-size: 0.7rem; padding: 4px 10px;
+    border-radius: 6px; font-weight: 500;
+    border: 1px solid;
+  }
+  .badge-blue { background: rgba(99,179,237,0.1); border-color: rgba(99,179,237,0.3); color: var(--accent); }
+  .badge-purple { background: rgba(127,90,240,0.1); border-color: rgba(127,90,240,0.3); color: #b794f4; }
+  .badge-green { background: rgba(44,182,125,0.1); border-color: rgba(44,182,125,0.3); color: var(--accent3); }
+  .badge-pink { background: rgba(249,168,212,0.1); border-color: rgba(249,168,212,0.3); color: #f9a8d4; }
+
+  .project-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; color: var(--accent);
+    text-decoration: none; font-weight: 500;
+    margin-top: 14px;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 10px; }
+
+  /* ===== CERTIFICATIONS ===== */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .cert-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: all 0.25s;
+  }
+  .cert-card:hover { border-color: rgba(99,179,237,0.4); transform: translateY(-3px); }
+  .cert-icon { font-size: 2rem; margin-bottom: 12px; }
+  .cert-name { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .cert-org { font-size: 0.75rem; color: var(--muted); }
+  .cert-year {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.7rem; padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(99,179,237,0.1);
+    color: var(--accent); font-weight: 600;
+  }
+
+  /* ===== VEILLE ===== */
+  .veille-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+    position: relative; overflow: hidden;
+  }
+  .veille-card::after {
+    content: '< / >';
+    position: absolute; right: 32px; top: 32px;
+    font-family: monospace;
+    font-size: 1.5rem;
+    color: rgba(99,179,237,0.08);
+    font-weight: 900;
+  }
+  .veille-topic {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .veille-topic:last-child { border-bottom: none; }
+  .veille-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem; font-weight: 800;
+    color: var(--accent); opacity: 0.5;
+    min-width: 24px;
+    margin-top: 2px;
+  }
+  .veille-t { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .veille-d { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+  /* ===== CONTACT ===== */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .contact-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex; align-items: center; gap: 16px;
+    transition: all 0.25s; text-decoration: none;
+  }
+  .contact-item:hover { border-color: rgba(99,179,237,0.4); transform: translateY(-2px); }
+  .contact-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: rgba(99,179,237,0.1);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 3px; }
+  .contact-val { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.78rem; color: var(--muted);
+  }
+  footer span { color: var(--accent); }
+
+  /* PROJECT IMAGES */
+  .project-img-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .project-img-row.single { grid-template-columns: 1fr; }
+  .project-img-row a { display: block; overflow: hidden; border-radius: 8px; }
+  .project-img-row img {
+    width: 100%; height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s, filter 0.3s;
+    filter: brightness(0.85);
+    display: block;
+  }
+  .project-img-row.single img { height: 220px; }
+  .project-img-row a:hover img { transform: scale(1.05); filter: brightness(1); }
+
+  /* TIMELINE IMAGES */
+  .tl-imgs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .tl-imgs img {
+    height: 72px; width: auto; max-width: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: transform 0.25s;
+    cursor: zoom-in;
+  }
+  .tl-imgs img:hover { transform: scale(1.08); }
+
+  /* CERT IMAGES */
+  .cert-img {
+    width: 100%; height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+  }
 
 
-        <!-- le Favicon -->
-        <link rel="icon" href="favicon.ico" />
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
 
-        <!-- le Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar {
+      position: relative; height: auto;
+      flex-direction: row; flex-wrap: wrap;
+      align-items: center; gap: 20px;
+      padding: 24px 28px;
+    }
+    .sidebar::before { display: none; }
+    .avatar-wrap { width: 60px; height: 60px; margin-bottom: 0; }
+    .avatar-wrap::before { display: none; }
+    .avatar-placeholder { width: 60px; height: 60px; font-size: 1.2rem; }
+    .sidebar h1 { font-size: 1.2rem; }
+    nav { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+    main { padding: 32px 24px; }
+    .hero-grid { grid-template-columns: 1fr 1fr !important; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+  }
 
-        <!-- le Icon Font Stylesheet -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  @media (max-width: 640px) {
+    .section-title { font-size: 1.8rem; }
+    .hero-grid { grid-template-columns: 1fr !important; }
+    .certs-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
 
-        <!-- le Libraries Stylesheet -->
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-        <link href="lib/animate/animate.min.css" rel="stylesheet">
+<!-- ===== LOADER ===== -->
+<div id="loader">
+  <div class="loader-bg"></div>
+  <div class="loader-content">
+    <div class="loader-logo">
+      <img src="logo A.png" alt="logo" class="loader-logo-img">
+      <div class="loader-ring ring1"></div>
+      <div class="loader-ring ring2"></div>
+      <div class="loader-ring ring3"></div>
+    </div>
+    <div class="loader-name">Alberto <span>Luemba Bembe</span></div>
+    <div class="loader-role">Portfolio</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar-track">
+        <div class="loader-bar-fill" id="loaderBar"></div>
+      </div>
+      <div class="loader-pct" id="loaderPct">0%</div>
+    </div>
+    <div class="loader-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="loader-grid"></div>
+  <div class="loader-particles" id="loaderParticles"></div>
+</div>
 
-        <!-- le Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+<style>
+  /* ---- LOADER ---- */
+  #loader {
+    position: fixed; inset: 0; z-index: 999999;
+    background: #080c14;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  #loader.fade-out {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
+  }
 
-        <!-- le Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
-    </head>
+  /* Grid background */
+  .loader-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(99,179,237,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,179,237,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
 
-    <body>
-        <!-- le Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
+  /* Radial glow */
+  .loader-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 50%, rgba(127,90,240,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(99,179,237,0.08) 0%, transparent 60%);
+    animation: loaderPulse 2s ease-in-out infinite alternate;
+  }
+  @keyframes loaderPulse {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+  }
+
+  /* Content */
+  .loader-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 20px;
+    animation: loaderIn 0.6s ease-out;
+  }
+  @keyframes loaderIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Logo circle */
+  .loader-logo {
+    position: relative;
+    width: 100px; height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 8px;
+  }
+  .loader-initials {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    position: relative; z-index: 2;
+    text-shadow: 0 0 30px rgba(99,179,237,0.6);
+  }
+
+  /* Spinning rings */
+  .loader-ring {
+    position: absolute; border-radius: 50%;
+    border-style: solid; border-color: transparent;
+  }
+  .ring1 {
+    inset: 0;
+    border-width: 2px;
+    border-top-color: var(--accent, #63b3ed);
+    animation: spinRing 1.2s linear infinite;
+  }
+  .ring2 {
+    inset: 8px;
+    border-width: 2px;
+    border-right-color: #7f5af0;
+    animation: spinRing 1.8s linear infinite reverse;
+  }
+  .ring3 {
+    inset: 18px;
+    border-width: 1.5px;
+    border-bottom-color: #2cb67d;
+    animation: spinRing 2.4s linear infinite;
+  }
+  @keyframes spinRing { to { transform: rotate(360deg); } }
+
+  /* Name & role */
+  .loader-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 800;
+    color: #fff; letter-spacing: -0.02em;
+  }
+  .loader-name span { color: #63b3ed; }
+  .loader-role {
+    font-size: 0.78rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: #6b7fa3;
+    font-weight: 500;
+  }
+
+  /* Progress bar */
+  .loader-bar-wrap {
+    display: flex; align-items: center; gap: 12px;
+    width: 260px;
+  }
+  .loader-bar-track {
+    flex: 1; height: 3px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 100px; overflow: hidden;
+  }
+  .loader-bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #7f5af0, #63b3ed, #2cb67d);
+    background-size: 200% 100%;
+    border-radius: 100px;
+    transition: width 0.1s linear;
+    animation: shimmer 1.5s linear infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+  .loader-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem; font-weight: 700;
+    color: #63b3ed; min-width: 32px; text-align: right;
+  }
+
+  /* Dots */
+  .loader-dots { display: flex; gap: 8px; }
+  .loader-dots span {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: #63b3ed; opacity: 0.3;
+    animation: dotPulse 1.2s ease-in-out infinite;
+  }
+  .loader-dots span:nth-child(2) { animation-delay: 0.2s; background: #7f5af0; }
+  .loader-dots span:nth-child(3) { animation-delay: 0.4s; background: #2cb67d; }
+  @keyframes dotPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+  }
+
+  /* Floating particles */
+  .loader-particles {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .loader-particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+  }
+
+  /* Hide scrollbar while loading */
+  body.loading { overflow: hidden; }
+
+  .loader-logo-img {
+  width: 60px;   /* ajuste selon ton logo */
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+</style>
+
+<script>
+  // ---- LOADER LOGIC ----
+  document.body.classList.add('loading');
+  const bar = document.getElementById('loaderBar');
+  const pct = document.getElementById('loaderPct');
+
+  // Generate floating particles
+  const pc = document.getElementById('loaderParticles');
+  const colors = ['#63b3ed','#7f5af0','#2cb67d','#90cdf4','#b794f4'];
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'loader-particle';
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*20}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${3 + Math.random()*4}s;
+      animation-delay:${Math.random()*3}s;
+    `;
+    pc.appendChild(p);
+  }
+
+  // Animate progress bar over 2.8s
+  let progress = 0;
+  const totalDuration = 2800;
+  const interval = 30;
+  const steps = totalDuration / interval;
+  let step = 0;
+
+  const timer = setInterval(() => {
+    step++;
+    // Ease-out curve: fast at start, slow at end
+    const ease = 1 - Math.pow(1 - step / steps, 2.5);
+    progress = Math.min(Math.round(ease * 100), 100);
+    bar.style.width = progress + '%';
+    pct.textContent = progress + '%';
+
+    if (progress >= 100) {
+      clearInterval(timer);
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('fade-out');
+        document.body.classList.remove('loading');
+        setTimeout(() => {
+          document.getElementById('loader').style.display = 'none';
+        }, 700);
+      }, 300);
+    }
+  }, interval);
+</script>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="follower"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="avatar-wrap">
+      <img src="moi.jpeg" alt="Alberto LB" style="width:96px;height:96px;border-radius:50%;object-fit:cover;position:relative;z-index:1;border:3px solid var(--bg);">
+    </div>
+
+    <div>
+      <h1>Alberto LB</h1>
+      <p class="role">BTS SIO · Option SISR</p>
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        Disponible pour alternance
+      </div>
+    </div>
+
+    <nav id="nav">
+      <a href="#about" class="active"><i class="fa fa-user"></i> À propos</a>
+      <a href="#skills"><i class="fa fa-code"></i> Compétences</a>
+      <a href="#experience"><i class="fa fa-briefcase"></i> Expériences</a>
+      <a href="#projects"><i class="fa fa-folder"></i> Projets</a>
+      <a href="#certifs"><i class="fa fa-certificate"></i> Certifications</a>
+      <a href="#veille"><i class="fa fa-rss"></i> Veille</a>
+      <a href="#contact"><i class="fa fa-envelope"></i> Contact</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="social-links">
+        <a href="https://github.com/albertobrt" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/alberto-luemba-bembe-84b207324/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <a href="CV ALBERTO 2026.pdf" class="cv-btn" download>
+        <i class="fa fa-download"></i> Télécharger CV
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- ABOUT -->
+    <section id="about" class="reveal">
+      <div class="section-label">Introduction</div>
+      <h2 class="section-title">Technicien Systèmes<br><span>& Réseaux</span></h2>
+      <p class="about-text">
+        Étudiant en <strong>BTS SIO option SISR</strong>, je me spécialise dans l'administration des systèmes et réseaux avec un intérêt fort pour la <strong>cybersécurité</strong> et l'<strong>intelligence artificielle</strong>.
+        Mon objectif : concevoir et sécuriser des infrastructures fiables, anticiper les menaces et optimiser les performances dans un environnement professionnel exigeant.
+      </p>
+
+      <div class="hero-grid">
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Années d'expérience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">21</div>
+          <div class="stat-label">Projets réalisés</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">7</div>
+          <div class="stat-label">Clients / Tuteurs satisfaits</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="reveal">
+      <div class="section-label">Compétences</div>
+      <h2 class="section-title">Stack <span>Technique</span></h2>
+      <div class="skills-grid">
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Virtualisation (VMware, VirtualBox)</span>
+            <span class="skill-pct">80%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill fill-blue" style="width:80%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Administration Systèmes (Windows / Linux)</span>
+            <span class="skill-pct">75%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill fill-green" style="width:75%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Sécurité Informatique</span>
+            <span class="skill-pct">75%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill fill-purple" style="width:75%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Bash / PowerShell</span>
+            <span class="skill-pct">75%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill fill-green" style="width:75%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Réseaux (TCP/IP, DHCP, DNS, VLAN)</span>
+            <span class="skill-pct">70%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill fill-blue" style="width:70%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">HTML / CSS / JavaScript</span>
+            <span class="skill-pct">65%</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill fill-orange" style="width:65%"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="reveal">
+      <div class="section-label">Parcours</div>
+      <h2 class="section-title">Expériences <span>Professionnelles</span></h2>
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-content">
+            <div class="tl-meta">
+              <span class="tl-date">Jan – Fév 2026</span>
+              <span class="tl-company">Cour Nationale du Droit d'Asile — Montreuil</span>
             </div>
-        </div>
-        <!-- Spinner End -->
-
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-4 sticky-lg-top vh-100">
-                    <div class="d-flex flex-column h-100 text-center overflow-auto shadow">
-                        <img class="w-100 img-fluid mb-4 rounded-circle" src="img/moi.jpg" alt="Image">
-                        <h1 class="text-primary mt-2">Alberto LB</h1>
-                        <div class="mb-4" style="height: 10px;">
-                            <h4 class="typed-text-output d-inline-block text-light"></h4>
-                            <div class="typed-text d-none">Technicien Systèmes, Réseaux et Dév Web</div>
-                        </div>
-                        <div class="d-flex justify-content-center mt-auto mb-3">
-                            <a class="btn btn-secondary btn-square mx-1" href="https://github.com/albertobrt"><i class="fab fa-github"></i></a>
-                            <a class="btn btn-secondary btn-square mx-1" href="https://www.linkedin.com/in/alberto-luemba-bembe-84b207324/"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                        <div class="d-flex align-items-end justify-content-between border-top">
-                            <a href="CV ALBERTO 2026.pdf" class="btn w-50 border-end">Mon CV</a>
-                            <a href="Synthese_Epreuve_E5_2026.pdf" class="btn w-50 border-end">Tableau synthèse</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <!-- About Start -->
-                    <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
-                        <h1 class="title pb-3 mb-5">À propos de moi</h1>
-                        <h4>C'est Alberto et bienvenue sur mon Portfolio.</h4>
-                        <br>
-                        
-                        <p>Actuellement étudiant en <span class="highlight">BTS SIO option SISR</span>, je me spécialise dans l’administration des systèmes et réseaux, avec un intérêt particulier pour la cybersécurité et l’intelligence artificielle. Rigoureux et engagé, je développe mes compétences à la fois au travers de ma formation et de projets personnels, afin de les mettre en pratique dans un cadre professionnel.</p>
-                        <p>Mon objectif est de concevoir et sécuriser des infrastructures fiables, tout en anticipant les menaces et en optimisant les performances. Je m’intéresse également aux enjeux liés à la cybersécurité et à l’IA, domaines stratégiques en pleine évolution.
-</p>
-<p>Je suis prêt à mettre mes compétences au service de vos projets. Vous trouverez sur ce site mon parcours, mes réalisations et mes coordonnées.</p>
-                        
-                        <div class="row g-4">
-                            <div class="col-md-4 col-lg-6 col-xl-4">
-                                <div class="d-flex bg-secondary p-4">
-                                    <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">4</h1>
-                                    <div class="ps-3">
-                                        <p class="mb-0">Années</p>
-                                        <h5 class="mb-0">d'expérience</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-6 col-xl-4">
-                                <div class="d-flex bg-secondary p-4">
-                                    <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">8</h1>
-                                    <div class="ps-3">
-                                        <p class="mb-0">Clients/Tuteurs</p>
-                                        <h5 class="mb-0">satisfaits</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-6 col-xl-4">
-                                <div class="d-flex bg-secondary p-4">
-                                    <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">29 </h1>
-                                    <div class="ps-3">
-                                        <p class="mb-0">Projets</p>
-                                        <h5 class="mb-0">réalisés</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- About End -->
-                     <!-- BTS SIO SISR Start -->
-<section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
-    <h1 class="title pb-3 mb-5">BTS SIO option SISR</h1>
-    <p>Le <span class="highlight"><strong>BTS Services Informatiques aux Organisations (SIO)</strong></span> est un diplôme bac+2 qui forme des spécialistes de l’informatique. 
-       L’option <span class="highlight"><strong>SISR</strong> (Solutions d’Infrastructure, Systèmes et Réseaux)</span> prépare aux métiers liés à :</p>
-    <ul>
-        <li>L’administration et la sécurisation des réseaux informatiques</li>
-        <li>L’installation et la gestion des serveurs</li>
-        <li>La supervision et la maintenance d’infrastructures</li>
-        <li>Le support technique aux utilisateurs</li>
-    </ul>
-    <p>Les diplômés peuvent exercer comme <em>technicien systèmes et réseaux</em>, <em>administrateur</em>, 
-       <em>gestionnaire de parc</em> ou encore <em>consultant en cybersécurité junior</em>. 
-       Cette formation est idéale pour ceux qui souhaitent construire, maintenir et sécuriser des infrastructures informatiques modernes.</p>
-</section>
-<!-- BTS SIO SISR End -->
- 
-
-                    <!-- Skills Start -->
-                    <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
-                        <h1 class="title pb-3 mb-5">Compétences</h1>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="skill mb-4">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="mb-2">HTML/CCS/JAVASCRIPT</p>
-                                        <p class="mb-2">65%</p>
-                                    </div>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="skill mb-4">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="mb-2">Sécurité Informatique</p>
-                                        <p class="mb-2">75%</p>
-                                    </div>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="skill mb-4">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="mb-2">Réseaux (TCP/IP, DHCP, DNS)</p>
-                                        <p class="mb-2">70%</p>
-                                    </div>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="skill mb-4">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="mb-2">Virtualisation (VMware, VirtualBox)</p>
-                                        <p class="mb-2">80%</p>
-                                    </div>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="skill mb-4">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="mb-2">Administration Systèmes (Windows/Linux)</p>
-                                        <p class="mb-2">75%</p>
-                                    </div>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div class="skill mb-4">
-                                    <div class="d-flex justify-content-between">
-                                        <p class="mb-2">Bash / PowerShell</p>
-                                        <p class="mb-2">75%</p>
-                                    </div>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- Skills End -->
-
-                     <!-- Experience Start -->
-<section class="py-5 wow fadeInUp" data-wow-delay="0.1s">
-  <h1 class="title pb-3 mb-5">Expérience Professionnelle</h1>
-
-  <div class="timeline">
-    <!-- Expérience 1 - NOUVEAU -->
-<div class="timeline-item d-flex">
-  <div class="timeline-icon">
-    <img src="img/new.png" alt="CNDA" class="rounded-circle">
-  </div>
-  <div class="timeline-content bg-secondary text-light rounded-3 shadow-lg p-4">
-    <h5 class="mb-1">Technicien Support IT (Stage)</h5>
-    <small class="text-light">Cour nationale du droit d'asile – Montreuil | 01/2026 – 02/2026</small>
-    <ul class="mt-2">
-      <li>Effacement sécurisé des données – <strong>Blancco Drive Eraser</strong></li>
-      <li>Déploiement et remastérisation de postes <strong>Windows</strong></li>
-      <li>Installation & configuration de téléphones et imprimantes</li>
-    </ul>
-  </div>
-</div>
-
-<!-- Expérience 2 -->
-<div class="timeline-item d-flex">
-  <div class="timeline-icon">
-    <img src="img/new.png" alt="CNDA" class="rounded-circle">
-  </div>
-  <div class="timeline-content bg-secondary text-light rounded-3 shadow-lg p-4">
-    <h5 class="mb-1">Technicien Support IT (Stage)</h5>
-    <small class="text-light">Cour nationale du droit d'asile – Montreuil | 05/2025</small>
-    <ul class="mt-2">
-      <li>Gestion de tickets <strong>GLPI</strong></li>
-      <li>Installation & configuration postes <strong>Windows 11</strong></li>
-      <li>Transfert complet de données utilisateurs</li>
-      <li>Masterisation & reconditionnement (+150 PC)</li>
-      <li>Gestion des droits d'accès & cartes sécurisées</li>
-    </ul>
-  </div>
-</div>
-
-<!-- Expérience 3 -->
-<div class="timeline-item d-flex">
-  <div class="timeline-icon">
-    <img src="img/etablissement lefevre/etb logo.png" alt="Etablissement Lefèvre" class="rounded-circle">
-  </div>
-  <div class="timeline-content bg-secondary text-light rounded-3 shadow-lg p-4">
-    <h5 class="mb-1">Gestion de contenu Web (Stage)</h5>
-    <small class="text-light">Établissement Lefèvre – Paris | 01/2024</small>
-    <ul class="mt-2">
-      <li>Création & mise en ligne d'articles <strong>WordPress</strong></li>
-      <li>Configuration & optimisation de contenus</li>
-      <li>Collaboration directe avec un webmaster</li>
-    </ul>
-  </div>
-</div>
-
-<!-- Expérience 4 -->
-<div class="timeline-item d-flex">
-  <div class="timeline-icon">
-    <img src="img/clim energy system/logo clim en.png" alt="Clim Energy System" class="rounded-circle">
-  </div>
-  <div class="timeline-content bg-secondary text-light rounded-3 shadow-lg p-4">
-    <h5 class="mb-1">Technicien bâtiment & électricité (Stage)</h5>
-    <small class="text-light">Clim Energy System – Bois-Colombes | 07/2023</small>
-    <ul class="mt-2">
-      <li>Maintenance & sécurité électrique</li>
-      <li>Optimisation consommation énergétique</li>
-      <li>Installation & entretien d'équipements</li>
-    </ul>
-  </div>
-</div>
-
-<!-- Expérience 5 -->
-<div class="timeline-item d-flex">
-  <div class="timeline-icon">
-    <img src="img/zemus/Capture d’écran 2025-09-15 214827.png" alt="Zemus" class="rounded-circle">
-  </div>
-  <div class="timeline-content bg-secondary text-light rounded-3 shadow-lg p-4">
-    <h5 class="mb-1">Développeur junior (Stage)</h5>
-    <small class="text-light">Zemus – Le Kremlin-Bicêtre | 03/2023</small>
-    <ul class="mt-2">
-      <li>Développement d'une application</li>
-      <li>Contribution à un moteur de recherche</li>
-      <li>Travail en équipe Agile</li>
-    </ul>
-  </div>
-</div>
-  </div>
-</section>
-<!-- Experience End -->
- <!-- Certifications Start -->
-<section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
-    <h1 class="title pb-3 mb-5">Certifications</h1>
-
-    <div class="project-gallery mb-4">
-        <div class="row g-4 justify-content-center text-center">
-
-            <!-- Attestation Module 6 « Travail et données personnelles » -->
-            <div class="col-md-4 col-sm-6 d-flex flex-column align-items-center">
-                <a href="img/cnda/certif cnil module 6.png" data-lightbox="certifications" class="w-100">
-                    <img class="img-fluid rounded shadow-sm mx-auto d-block"
-                         src="img/cnda/certif cnil module 6.png"
-                         alt="Certification PIX 2026">
-                </a>
-                <p class="mt-3 mb-0">Attestation Module 6 « Travail et données personnelles »</p>
+            <div class="tl-title">Technicien Support IT (Stage)</div>
+            <div class="tl-imgs">
+              <img src="img/cnda/rapport blanco.jpeg" alt="Rapport Blancco">
+              <img src="img/cnda/IMG_5554.jpeg" alt="Détection matérielle">
+              <img src="img/cnda/IMG_5558.jpeg" alt="Fin effacement">
+              <img src="img/cnda/master.jpeg" alt="Masterisation">
             </div>
-
-            <!-- Certification PIX 2026 -->
-            <div class="col-md-4 col-sm-6 d-flex flex-column align-items-center">
-                <a href="img/certif pix 2006.png" data-lightbox="certifications" class="w-100">
-                    <img class="img-fluid rounded shadow-sm mx-auto d-block"
-                         src="img/certif pix 2006.png"
-                         alt="Certification PIX 2026">
-                </a>
-                <p class="mt-3 mb-0">Certification PIX — 2026</p>
+            <ul class="tl-list">
+              <li>Effacement sécurisé des données — Blancco Drive Eraser (normes NIST/ATA)</li>
+              <li>Déploiement et remastérisation de postes Windows</li>
+              <li>Installation & configuration de téléphones et imprimantes</li>
+            </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">Blancco</span>
+              <span class="tl-tag">Windows 11</span>
+              <span class="tl-tag">Masterisation</span>
             </div>
+          </div>
+        </div>
 
-            <!-- Certification PIX 2024 -->
-            <div class="col-md-4 col-sm-6 d-flex flex-column align-items-center">
-                <a href="img/certif pix.png" data-lightbox="certifications" class="w-100">
-                    <img class="img-fluid rounded shadow-sm mx-auto d-block"
-                         src="img/certif pix.png"
-                         alt="Certification PIX 2024">
-                </a>
-                <p class="mt-3 mb-0">Certification PIX — 2024</p>
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-content">
+            <div class="tl-meta">
+              <span class="tl-date">Mai 2025</span>
+              <span class="tl-company">Cour Nationale du Droit d'Asile — Montreuil</span>
             </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- Certifications End -->
-
-                    <!-- Services Start -->
-                    <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
-                        <h1 class="title pb-3 mb-5">Services</h1>
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <div class="service-item">
-                                    <i class="fa fa-2x fa-laptop-code mx-auto mb-4"></i>
-                                    <h5 class="mb-2">Développement Web</h5>
-                                    <p class="mb-0">Création de sites web responsives avec HTML, CSS, JavaScript et WordPress. Intégration de fonctionnalités dynamiques et optimisation de l’interface utilisateur.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="service-item">
-                                    <i class="fa fa-2x fa-network-wired mx-auto mb-4"></i>
-                                    <h5 class="mb-2">Administration Réseau</h5>
-                                    <p class="mb-0">Configuration et gestion des réseaux informatiques, adressage IP, VLAN, sécurité réseau et dépannage des connexions.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="service-item">
-                                    <i class="fa fa-2x fa-server mx-auto mb-4"></i>
-                                    <h5 class="mb-2">Gestion de Serveurs</h5>
-                                    <p class="mb-0">Installation, configuration et supervision de serveurs Windows et Linux. Mise en place d’Active Directory, de GPO et de services réseau.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="service-item">
-                                    <i class="fa fa-2x fa-tools mx-auto mb-4"></i>
-                                    <h5 class="mb-2">Support Informatique</h5>
-                                    <p class="mb-0">Assistance aux utilisateurs, résolution de pannes, maintenance préventive et curative des postes de travail, déploiement de logiciels.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- Services End -->
-
-                    <!-- Portfolio Start -->
-                    <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
-    <h1 class="title pb-3 mb-5">Portfolio</h1>
-    <div class="row">
-        <div class="col-12">
-            <div class="row">
-  <div class="col-12 text-center mb-2">
-    <ul class="list-inline mb-4 d-flex justify-content-center flex-wrap" id="portfolio-flters">
-      <li class="btn btn-secondary active me-2 mb-2" data-filter="*">
-        <i class="fa fa-star me-1"></i>Tous
-      </li>
-      <li class="btn btn-secondary me-2 mb-2" data-filter=".second">
-        <i class="fa fa-gavel me-1"></i>Cour nationale du droit d'asile
-      </li>
-      <li class="btn btn-secondary me-2 mb-2" data-filter=".sixth">
-        <i class="fa fa-user me-1"></i>Projet
-      </li>
-    </ul>
-  </div>
-</div>
-
-            <div class="row portfolio-container">
-
-<!-- CNDA -->
-    <div class="col-12 mb-4 portfolio-item second">
-
-    <div class="project-network">
-
-        <!-- GALERIE IMAGES -->
-        <div class="project-gallery mb-4">
-            <div class="row g-3">
-                <div class="col-md-6 col-sm-12">
-                    <a href="img/cnda/master.jpeg" data-lightbox="cnda">
-                        <img class="img-fluid rounded" src="img/cnda/master.jpeg" alt="Blanco postes CNDA">
-                    </a>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <a href="img/cnda/WhatsApp Image 2025-09-12 at 10.22.41.jpeg" data-lightbox="cnda">
-                        <img class="img-fluid rounded" src="img/cnda/WhatsApp Image 2025-09-12 at 10.22.41.jpeg" alt="Gestion postes CNDA">
-                    </a>
-                </div>
+            <div class="tl-title">Technicien Support IT (Stage)</div>
+            <div class="tl-imgs">
+              <img src="img/cnda/WhatsApp Image 2025-09-12 at 10.22.41.jpeg" alt="Gestion postes CNDA">
+              <img src="img/cnda/IMG_5239.jpg" alt="Poste CNDA">
             </div>
-        </div>
-
-        <!-- TITRE -->
-        <h2>⚖️ Stage – Cour Nationale du Droit d’Asile (CNDA)</h2>
-
-        <!-- PRÉSENTATION CNDA -->
-        <h3>🏛️ Présentation de la CNDA</h3>
-        <p>
-            La <strong>Cour nationale du droit d’asile (CNDA)</strong> est une juridiction administrative spécialisée,
-            créée en <strong>2007</strong> pour succéder à la Commission des recours des réfugiés.
-            Elle statue sur les recours formés par les demandeurs d’asile contre les décisions
-            de l’<strong>Office français de protection des réfugiés et des apatrides (OFPRA)</strong>.
-        </p>
-        <p>
-            En tant qu’acteur majeur du droit d’asile en France, la CNDA évolue dans un environnement
-            nécessitant un très haut niveau de <strong>sécurité</strong>, de <strong>confidentialité</strong>
-            et de <strong>disponibilité des systèmes d’information</strong>.
-        </p>
-
-        <h3>⚖️ Situation juridique de la CNDA</h3>
-
-<p>
-La Cour nationale du droit d’asile (CNDA) est une juridiction administrative spécialisée
-rattachée au Conseil d’État. Elle est chargée de juger les recours formés par les
-demandeurs d’asile contre les décisions de l’Office français de protection des réfugiés
-et apatrides (OFPRA).
-</p>
-
-<p>
-Son fonctionnement est encadré par le Code de l’entrée et du séjour des étrangers
-et du droit d’asile (CESEDA). En tant qu’institution publique, la CNDA doit garantir
-le respect des droits fondamentaux, notamment le droit d’asile et la protection
-des données personnelles des demandeurs conformément au RGPD.
-</p>
-
-<p>
-Cette exigence implique la mise en place de systèmes d’information sécurisés afin
-de garantir la confidentialité, l’intégrité et la disponibilité des données traitées
-par l’institution.
-</p>
-
-        <!-- ORGANIGRAMME -->
-        <h3>📊 Organigramme de la CNDA</h3>
-        <p>
-            L’organigramme ci-dessous présente l’organisation interne de la Cour nationale du droit d’asile.
-        </p>
-        <div class="text-center mb-4">
-            <img src="img/cnda/organigramme.png" 
-                 class="img-fluid rounded shadow" 
-                 alt="Organigramme de la CNDA">
-        </div>
-
-        <!-- PRÉSENTATION SSI -->
-        <h3>💻 Présentation du Service du Système d’Information (SSI)</h3>
-        <p>
-            Le <strong>Service du Système d’Information (SSI)</strong> de la CNDA est un service informatique
-            atypique pour une juridiction administrative. En plus de ses missions traditionnelles
-            de support, il joue un rôle central dans la <strong>gestion de projets informatiques</strong>.
-        </p>
-        <p>
-            Le système d’information de la CNDA se distingue de celui des autres juridictions
-            par l’utilisation de nombreuses <strong>applications métier spécifiques</strong>,
-            développées pour répondre aux besoins propres de la cour.
-        </p>
-
-        <h4>🎯 Missions principales du SSI</h4>
-        <ul>
-            <li>
-                <strong>Assistance à maîtrise d’ouvrage (AMOA)</strong> :
-                recueil et analyse des besoins, rédaction de spécifications fonctionnelles,
-                recettes applicatives, accompagnement du changement
-                (formation, documentation, communication).
-            </li>
-            <li>
-                <strong>Maintien en conditions opérationnelles</strong> et évolutions des applications métier.
-            </li>
-            <li>
-                <strong>Support utilisateurs de proximité</strong> et gestion du parc informatique :
-                <ul>
-                    <li>Environ <strong>600 postes utilisateurs</strong></li>
-                    <li><strong>400 lignes téléphoniques fixes</strong> et <strong>20 mobiles</strong></li>
-                    <li>Trois sites distincts</li>
-                </ul>
-            </li>
-            <li>
-                Maintien en conditions opérationnelles de l’<strong>infrastructure</strong>
-                (réseau, serveurs, téléphonie).
-            </li>
-        </ul>
-
-        <h4>🔗 Coopération interservices</h4>
-        <p>
-            Le SSI travaille en étroite collaboration avec les services du
-            <strong>Conseil d’État</strong> et de l’<strong>OFPRA</strong>.
-            Le recensement et le suivi des besoins sont réalisés avec l’aide du
-            pôle <strong>« informatique et nouvelles technologies »</strong>,
-            composé de représentants de l’ensemble des métiers de la juridiction.
-        </p>
-
-        <h4>🚀 Projets et réalisations majeures</h4>
-        <ul>
-            <li>Généralisation de la communication dématérialisée via <strong>CNDém@t</strong>.</li>
-            <li>
-                Extension du système de <strong>vidéo-audiences</strong>
-                (Martinique et Guadeloupe) et automatisation des convocations.
-            </li>
-            <li>
-                Adaptation des outils informatiques suite à la
-                <strong>réforme du droit d’asile de 2015</strong>.
-            </li>
-            <li>
-                Mise en place d’un <strong>système de messagerie instantanée</strong>
-                entre salles d’audience et interprètes.
-            </li>
-        </ul>
-
-        <h4>🛠️ Gestion et maintenance</h4>
-        <ul>
-            <li>Extension du réseau et déménagement des équipements informatiques.</li>
-            <li>Préparation de la migration du serveur de partage de fichiers.</li>
-            <li>Migration de flux de données entre les applications CNDA et OFPRA.</li>
-            <li>Traitement de plus de <strong>4 300 incidents et demandes utilisateurs</strong>.</li>
-        </ul>
-
-        <!-- MISSIONS -->
-        <h3>🛠️ Missions réalisées durant le stage</h3>
-        <!-- BLANCCO -->
-<h6>🔐 Effacement sécurisé des données – Blancco Drive Eraser</h6>
-
-<!-- GALERIE BLANCCO -->
-<div class="project-gallery mb-4">
-    <div class="row g-3">
-        <div class="col-md-3 col-sm-6">
-            <a href="img/cnda/rapport blanco.jpeg" data-lightbox="blancco">
-                <img class="img-fluid rounded" src="img/cnda/rapport blanco.jpeg" alt="Blancco - Sélection du disque">
-            </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <a href="img/cnda/IMG_5554.jpeg" data-lightbox="blancco">
-                <img class="img-fluid rounded" src="img/cnda/IMG_5554.jpeg" alt="Blancco - Détection matérielle">
-            </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <a href="img/cnda/IMG_5555.jpeg" data-lightbox="blancco">
-                <img class="img-fluid rounded" src="img/cnda/IMG_5555.jpeg" alt="Blancco - Paramétrage effacement">
-            </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <a href="img/cnda/2blanco.jpeg" data-lightbox="blancco">
-                <img class="img-fluid rounded" src="img/cnda/4.jpg" alt="Blancco - Lancement effacement">
-            </a>
-        </div>
-
-        <div class="col-md-3 col-sm-6">
-            <a href="img/cnda/1blanco.jpeg" data-lightbox="blancco">
-                <img class="img-fluid rounded" src="img/cnda/5.jpg" alt="Blancco - Progression">
-            </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <a href="img/cnda/IMG_5558.jpeg" data-lightbox="blancco">
-                <img class="img-fluid rounded" src="img/cnda/IMG_5558.jpeg" alt="Blancco - Fin effacement">
-            </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <a href="img/cnda/IMG_5559.jpeg" data-lightbox="blancco">
-                <img class="img-fluid rounded" src="img/cnda/IMG_5559.jpeg" alt="Blancco - Rapport">
-            </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-            <a href="img/cnda/IMG_5560.jpeg" data-lightbox="blancco">
-                <img class="img-fluid rounded" src="img/cnda/IMG_5560.jpeg" alt="Blancco - Export PDF">
-            </a>
-        </div>
-    </div>
-</div>
-
-<p>
-    Dans le cadre du renouvellement du parc informatique de la CNDA,
-    <strong>Blancco Drive Eraser</strong> a été utilisé afin de garantir
-    un <strong>effacement sécurisé, certifié et irréversible</strong>
-    des données présentes sur les disques <strong>HDD et SSD</strong>,
-    conformément aux exigences de sécurité du service.
-</p>
-
-<h4>🟢 Phase 1 : Préparation</h4>
-<ul>
-    <li>Sélection manuelle du poste ou du disque à effacer</li>
-    <li>Détection automatique du matériel</li>
-    <li>Saisie des champs administratifs (juridiction, technicien, etc.)</li>
-    <li>Choix de la méthode d’effacement (<strong>NIST Purge</strong>, <strong>ATA</strong>)</li>
-    <li>Lancement de la procédure d’effacement</li>
-</ul>
-
-<h4>🔵 Phase 2 : Exécution & Rapport</h4>
-<ul>
-    <li>Suivi en temps réel de la progression (ex : 82 %, 6 minutes restantes)</li>
-    <li>Validation de la fin de l’effacement</li>
-    <li>Génération automatique du rapport d’effacement</li>
-    <li>Envoi du rapport vers le serveur central</li>
-    <li>Export possible au format <strong>PDF avec code-barres</strong></li>
-</ul>
-
-<h4>🧠 Points clés</h4>
-<ul>
-    <li>Effacement conforme aux normes de sécurité internationales</li>
-    <li>Processus <strong>traçable</strong> et auditable via rapports détaillés</li>
-    <li>Gestion centralisée par juridiction (ex : CNDA)</li>
-    <li>Identification précise des techniciens et des opérations réalisées</li>
-</ul>
-        
-
-        <!-- OUTILS -->
-        <h3>🧰 Outils utilisés</h3>
-        <div class="skills">
-            <span class="skill-badge">GLPI</span>
-            <span class="skill-badge">Blancco</span>
-            <span class="skill-badge">Rufus</span>
-            <span class="skill-badge">Windows 11</span>
-            <span class="skill-badge">Gestion parc informatique</span>
-        </div>
-
-        <!-- COMPÉTENCES -->
-        <h3>🎯 Compétences développées</h3>
-        <div class="skills">
-            <span class="skill-badge">Support informatique</span>
-            <span class="skill-badge">Masterisation de postes</span>
-            <span class="skill-badge">Sécurité des SI</span>
-            <span class="skill-badge">Gestion incidents</span>
-            <span class="skill-badge">Autonomie</span>
-        </div>
-
-    </div>
-
-</div>
-
-    <!-- Projet -->
-
-<div class="col-12 mb-4 portfolio-item sixth">
-
-    <div class="project-network">
-
-        <!-- TITRE -->
-        <h2>🌐 Projet réseau : Architecture multi-VLAN avancée</h2>
-
-        <!-- IMAGES DU PROJET -->
-        <div class="project-gallery mb-4">
-            <div class="row g-3">
-
-                <!-- Image 1 -->
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/Projet_SYSRES img.png" data-lightbox="projet">
-                        <img class="img-fluid rounded" src="img/Projet_SYSRES img.png" alt="Projet image 1">
-                    </a>
-                </div>
-
-                <!-- Image 2 -->
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/pkt projet sysres.jpeg" data-lightbox="projet">
-                        <img class="img-fluid rounded" src="img/pkt projet sysres.jpeg" alt="Projet image 2">
-                    </a>
-                </div>
-
-                <!-- Image 3 -->
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/cnda/IMG_5239.jpg" data-lightbox="projet">
-                        <img class="img-fluid rounded" src="img/cnda/IMG_5239.jpg" alt="Projet image 2">
-                    </a>
-                </div>
-
+            <ul class="tl-list">
+              <li>Gestion de tickets GLPI</li>
+              <li>Installation & configuration postes Windows 11</li>
+              <li>Masterisation & reconditionnement de +150 PC</li>
+              <li>Gestion des droits d'accès & cartes sécurisées</li>
+            </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">GLPI</span>
+              <span class="tl-tag">Rufus</span>
+              <span class="tl-tag">Gestion parc</span>
             </div>
+          </div>
         </div>
 
-        <!-- PLAN D'ADRESSAGE -->
-        <h3>📊 Plan d'adressage</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>VLAN</th>
-                    <th>Nom</th>
-                    <th>Réseau</th>
-                    <th>Passerelle</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>10</td><td>DEV</td><td>192.168.10.0/24</td><td>192.168.10.254</td></tr>
-                <tr><td>20</td><td>INFO</td><td>192.168.20.0/24</td><td>192.168.20.254</td></tr>
-                <tr><td>30</td><td>AD</td><td>192.168.30.0/24</td><td>192.168.30.254</td></tr>
-                <tr><td>40</td><td>WEB</td><td>192.168.40.0/24</td><td>192.168.40.254</td></tr>
-            </tbody>
-        </table>
-
-        <!-- TOPOLOGIE -->
-        <h3>🔧 Topologie et rôles</h3>
-        <ul>
-            <li><strong>R1 (Routeur)</strong> : Routage-on-a-stick (VLAN 10/20) + DHCP relay</li>
-            <li><strong>Switch L3 (3560)</strong> : Routage inter-VLAN (30/40) + passerelle serveurs</li>
-            <li><strong>Switchs d'accès (2960)</strong> : Répartition VLANs + trunks</li>
-            <li><strong>DC1</strong> : Serveur AD/DNS/DHCP (192.168.30.10)</li>
-            <li><strong>Serveur WEB</strong> : Apache sur Debian / Cockpit</li>
-        </ul>
-
-        <!-- CONFIGURATIONS -->
-        <h3>⚙️ Configurations clés</h3>
-        <pre><code class="language-bash">
-# Routeur R1
-interface g0/0/1.10
- encapsulation dot1Q 10
- ip address 192.168.10.254 255.255.255.0
- ip helper-address 192.168.30.10
-
-# Switch L3
-ip routing
-interface vlan 30
- ip address 192.168.30.254 255.255.255.0
-
-# DHCP pools (DC1)
-VLAN10 : 192.168.10.100-200 → GW 192.168.10.254
-        </code></pre>
-
-        <!-- TESTS VALIDÉS -->
-        <h3>🧪 Tests validés</h3>
-        <div class="tests">
-            <div class="test-item">✅ Routage inter-VLAN complet</div>
-            <div class="test-item">✅ Attribution DHCP centralisée via DC1</div>
-            <div class="test-item">✅ Résolution DNS du domaine ort.lan</div>
-            <div class="test-item">✅ Accès web au serveur Debian</div>
-            <div class="test-item">✅ Isolation et communication contrôlée</div>
-        </div>
-
-        <!-- COMPÉTENCES -->
-        <h3>🎯 Compétences démontrées</h3>
-        <div class="skills">
-            <span class="skill-badge">Conception de plan d'adressage</span>
-            <span class="skill-badge">Routage inter-VLAN</span>
-            <span class="skill-badge">Services réseau (DHCP/DNS/AD)</span>
-            <span class="skill-badge">Segmentation VLAN</span>
-            <span class="skill-badge">Diagnostic réseau</span>
-        </div>
-
-    </div>
-
-</div>
-<div class="col-12 mb-4 portfolio-item sixth">
-
-    <div class="project-network">
-        <!-- TITRE -->
-        <h2>📧 Projet système – Mise en œuvre d’un serveur de messagerie sous Debian 13</h2>
-
-        <!-- IMAGES DU PROJET -->
-        <div class="project-gallery mb-4">
-            <div class="row g-3">
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/installation de postfix.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/installation de postfix.png" alt="Configuration Postfix">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/2.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/2.png" alt="Configuration Dovecot">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/3.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/3.png" alt="Test antispam">
-                    </a>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/installation dovecot et config.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/installation dovecot et config.png" alt="Configuration Postfix">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/2.2.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/2.2.png" alt="Configuration Dovecot">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/certificat auto signé.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/certificat auto signé.png" alt="Test antispam">
-                    </a>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/configuration postfix.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/configuration postfix.png" alt="Configuration Postfix">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/configuration dovecot.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/configuration dovecot.png" alt="Configuration Dovecot">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/installation et activation de spam assasin.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/installation et activation de spam assasin.png" alt="Test antispam">
-                    </a>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/3.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/3.png" alt="Configuration Postfix">
-                    </a>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/3.1.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/3.1.png" alt="Test antispam">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/config postfix pour utiliser spamAssasin.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/config postfix pour utiliser spamAssasin.png" alt="Configuration Dovecot">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/installation outil mail.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/installation outil mail.png" alt="Test antispam">
-                    </a>
-                </div>
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/test.png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/test.png" alt="Configuration Postfix">
-                    </a>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <a href="img/mail/test anti spam .png" data-lightbox="projet-mail">
-                        <img class="img-fluid rounded" src="img/mail/test anti spam .png" alt="Configuration Dovecot">
-                    </a>
-                </div>
-
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-content">
+            <div class="tl-meta">
+              <span class="tl-date">Jan 2024</span>
+              <span class="tl-company">Établissement Lefèvre — Paris</span>
             </div>
-
-        </div>
-
-        <!-- DESCRIPTION -->
-        <p>
-            Déploiement complet d’un <strong>serveur de messagerie professionnel</strong> sous Debian 13,
-            incluant l’envoi et la réception de mails, le chiffrement TLS et le filtrage antispam.
-        </p>
-
-        <!-- AVANCEMENT -->
-        <h3>📅 Étapes du projet</h3>
-        <ul>
-            <li>
-                <strong>Étape 1 :</strong>
-                Installation et configuration de <strong>Postfix</strong> (SMTP) en mode “Internet Site”
-                avec le nom de domaine <code>mail.tp.local</code>.
-            </li>
-            <li>
-                <strong>Étape 2 :</strong>
-                Déploiement de <strong>Dovecot</strong> pour l’accès IMAP/IMAPS et configuration
-                du stockage des mails en <strong>Maildir</strong>.
-            </li>
-            <li>
-                <strong>Étape 3 :</strong>
-                Création de comptes utilisateurs Linux (<code>alice</code>, <code>bob</code>)
-                pour l’authentification des boîtes mail.
-            </li>
-            <li>
-                <strong>Étape 4 :</strong>
-                Sécurisation des échanges avec <strong>TLS</strong> via un certificat auto-signé
-                et activation du chiffrement côté SMTP et IMAP.
-            </li>
-            <li>
-                <strong>Étape 5 :</strong>
-                Intégration de <strong>SpamAssassin</strong> pour le filtrage antispam
-                et configuration de Postfix pour rediriger les mails vers le filtre.
-            </li>
-        </ul>
-
-        <!-- PROBLÈME -->
-        <h3>⚠️ Problème rencontré</h3>
-        <p>
-            Difficulté à faire fonctionner la redirection des mails vers SpamAssassin
-            via <code>content_filter</code> dans <strong>Postfix</strong> sans bloquer la réception.
-        </p>
-
-        <!-- SOLUTION -->
-        <h3>💡 Solution appliquée</h3>
-        <p>
-            Modification du fichier <code>/etc/postfix/master.cf</code> pour ajouter un service
-            <strong>spamassassin</strong> en mode “pipe” et rediriger uniquement les mails entrants
-            vers le filtre, sans affecter l’envoi.
-        </p>
-
-        <!-- COMPÉTENCES -->
-        <h3>🎯 Compétences démontrées</h3>
-        <div class="skills">
-            <span class="skill-badge">Postfix – SMTP</span>
-            <span class="skill-badge">Dovecot – IMAP / IMAPS</span>
-            <span class="skill-badge">SpamAssassin – Antispam</span>
-            <span class="skill-badge">Chiffrement TLS / SSL</span>
-            <span class="skill-badge">Gestion des utilisateurs Linux</span>
-            <span class="skill-badge">Maildir – Stockage des mails</span>
-            <span class="skill-badge">Débogage des services mail</span>
-            <span class="skill-badge">Sécurisation des services réseau</span>
-        </div>
-    </div>
-</div>
-<!-- Projet -->
-<div class="col-12 mb-4 portfolio-item sixth">
-
-    <div class="project-network">
-
-        <!-- TITRE -->
-        <h2>⚽ Projet Engagement étudiant – Site web du club OFC Couronnes</h2>
-
-        <!-- IMAGES DU PROJET -->
-        <div class="project-gallery mb-4">
-            <div class="row g-3">
-                <div class="col-12">
-    <a href="img/Capture d’écran site couronne.png" data-lightbox="projet-ofc">
-        <img class="img-fluid rounded w-100" src="img/Capture d’écran site couronne.png" alt="Aperçu du site OFC Couronnes">
-    </a>
-</div>
+            <div class="tl-title">Gestion de contenu Web (Stage)</div>
+            <ul class="tl-list">
+              <li>Création & mise en ligne d'articles WordPress</li>
+              <li>Configuration & optimisation de contenus</li>
+              <li>Collaboration directe avec un webmaster</li>
+            </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">WordPress</span>
+              <span class="tl-tag">SEO</span>
             </div>
+          </div>
         </div>
 
-        <!-- DESCRIPTION -->
-        <p>
-            Réalisation d’un <strong>site web vitrine</strong> pour le club de football amateur 
-            <strong>OFC Couronnes</strong> dans le cadre de mon engagement étudiant et de ma formation 
-            en <strong>BTS SIO option SISR</strong>.  
-            Ce site permet de regrouper les informations importantes du club comme les matchs, 
-            les thèmes d’entraînement et les actualités.
-        </p>
-
-        <!-- OBJECTIF -->
-        <h3>🎯 Objectif du projet</h3>
-        <p>
-            Concevoir une plateforme simple et accessible permettant aux parents d’accéder facilement aux informations du club et d’améliorer la visibilité
-            de l’association.
-        </p>
-
-        <!-- HÉBERGEMENT -->
-        <h3>🌐 Hébergement et déploiement</h3>
-        <p>
-            Le site est hébergé sur <strong>GitHub Pages</strong>, ce qui permet un déploiement rapide
-            et sécurisé d’un site statique.  
-            La gestion du projet est réalisée avec <strong>Git</strong> afin de suivre les modifications
-            et maintenir une version stable du site.
-        </p>
-
-        <!-- LIEN -->
-        <h3>🔗 Accéder au site</h3>
-        <p>
-            <a href="https://albertobrt.github.io/u8-ofccouronne/" target="_blank">
-                https://albertobrt.github.io/u8-ofccouronne/
-            </a>
-        </p>
-
-        <!-- COMPÉTENCES -->
-        <h3>🎯 Compétences démontrées</h3>
-        <div class="skills">
-            <span class="skill-badge">Développement HTML / CSS / JavaScript</span>
-            <span class="skill-badge">Hébergement GitHub Pages</span>
-            <span class="skill-badge">Gestion de version avec Git</span>
-            <span class="skill-badge">Responsive Design</span>
-            <span class="skill-badge">Organisation de projet web</span>
-            <span class="skill-badge">Réponse à un besoin client réel</span>
-        </div>
-
-    </div>
-
-</div>
-<!-- Projet Routage -->
-
-<div class="col-12 mb-4 portfolio-item sixth">
-
-    <div class="project-network">
-
-        <!-- TITRE -->
-        <h2>🌐 Projet réseau : Routage IPv4 / IPv6 (Statique & Dynamique)</h2>
-
-        <!-- DESCRIPTION -->
-        <h3>📌 Présentation</h3>
-        <p>
-            Ce projet a pour objectif de mettre en place une infrastructure réseau simple
-            permettant la communication entre deux réseaux distincts à l’aide de deux routeurs.
-            Il met en œuvre un <strong>routage statique</strong> et un <strong>routage dynamique</strong>
-            en <strong>IPv4 et IPv6</strong>.
-        </p>
-
-        <!-- TOPOLOGIE -->
-        <h3>🔧 Topologie</h3>
-        <p>PC1 → Switch1 → R1 → R2 → Switch2 → PC2</p>
-
-        <!-- BRANCHEMENTS -->
-        <h3>🔌 Branchement des équipements</h3>
-        <ul>
-            <li>PC1 (Fa0) → Switch1 (Fa0/1)</li>
-            <li>Switch1 (Fa0/2) → R1 (G0/0)</li>
-            <li>R1 (G0/1) → R2 (G0/0)</li>
-            <li>R2 (G0/1) → Switch2 (Fa0/1)</li>
-            <li>Switch2 (Fa0/2) → PC2 (Fa0)</li>
-        </ul>
-
-        <!-- PLAN D'ADRESSAGE -->
-        <h3>📊 Plan d’adressage</h3>
-
-        <h4>IPv4</h4>
-        <table class="table table-bordered">
-            <tr><td>PC1</td><td>192.168.1.10</td></tr>
-            <tr><td>R1</td><td>192.168.1.1 / 10.0.0.1</td></tr>
-            <tr><td>R2</td><td>10.0.0.2 / 192.168.2.1</td></tr>
-            <tr><td>PC2</td><td>192.168.2.10</td></tr>
-        </table>
-
-        <h4>IPv6</h4>
-        <table class="table table-bordered">
-            <tr><td>PC1</td><td>2001:db8:1::10/64</td></tr>
-            <tr><td>R1</td><td>2001:db8:1::1 / 2001:db8:12::1</td></tr>
-            <tr><td>R2</td><td>2001:db8:12::2 / 2001:db8:2::1</td></tr>
-            <tr><td>PC2</td><td>2001:db8:2::10/64</td></tr>
-        </table>
-
-        <!-- CONFIG -->
-        <h3>⚙️ Configurations principales</h3>
-        <pre><code class="language-bash">
-interface g0/0
-ip address 192.168.1.1 255.255.255.0
-ipv6 address 2001:db8:1::1/64
-no shutdown
-
-interface g0/1
-ip address 10.0.0.1 255.255.255.0
-ipv6 address 2001:db8:12::1/64
-no shutdown
-
-ipv6 unicast-routing
-        </code></pre>
-
-        <!-- ROUTAGE -->
-        <h3>🌐 Routage</h3>
-
-        <h4>Statique</h4>
-        <pre><code class="language-bash">
-ip route 192.168.2.0 255.255.255.0 10.0.0.2
-ipv6 route 2001:db8:2::/64 2001:db8:12::2
-        </code></pre>
-
-        <h4>Dynamique (OSPF)</h4>
-        <pre><code class="language-bash">
-router ospf 1
-network 192.168.1.0 0.0.0.255 area 0
-        </code></pre>
-
-        <!-- TESTS -->
-        <h3>🧪 Tests</h3>
-        <div class="tests">
-            <div class="test-item">✅ Ping IPv4 OK</div>
-            <div class="test-item">✅ Ping IPv6 OK</div>
-            <div class="test-item">✅ Routage fonctionnel</div>
-        </div>
-
-        <!-- ERREURS -->
-        <h3>⚠️ Erreurs rencontrées / fréquentes</h3>
-        <ul>
-            <li>Oublier <code>no shutdown</code> → interface inactive</li>
-            <li>Mauvaise adresse IP ou masque</li>
-            <li>Mauvaise passerelle sur les PC</li>
-            <li>Erreur d’interface (G0/0 au lieu de G0/1)</li>
-            <li>Oublier <code>ipv6 unicast-routing</code></li>
-            <li>Mauvaise configuration OSPF</li>
-        </ul>
-
-        <!-- A RETENIR -->
-        <h3>🧠 Points à retenir</h3>
-        <ul>
-            <li>Le routage statique est simple mais peu flexible</li>
-            <li>Le routage dynamique est automatique et évolutif</li>
-            <li>Les routeurs assurent le routage, les switchs commutent</li>
-            <li>Toujours tester étape par étape (ping)</li>
-        </ul>
-
-        <!-- IPV6 -->
-        <h3>📌 Pourquoi /64 en IPv6 ?</h3>
-        <p>
-            Le préfixe <strong>/64</strong> est le standard en IPv6 pour les réseaux locaux.
-            Il permet d’avoir une séparation claire entre la partie réseau et la partie hôte,
-            et est obligatoire pour certaines fonctionnalités comme l’auto-configuration (SLAAC).
-        </p>
-
-        <!-- CONSEILS -->
-        <h3>🎯 Conseils pratiques</h3>
-        <ul>
-            <li>Configurer les IP avant le routage</li>
-            <li>Vérifier avec <code>show ip interface brief</code></li>
-            <li>Tester après chaque étape</li>
-            <li>Commencer par le routage statique puis passer au dynamique</li>
-        </ul>
-
-        <!-- COMPETENCES -->
-        <h3>🎯 Compétences développées</h3>
-        <div class="skills">
-            <span class="skill-badge">Routage IPv4 / IPv6</span>
-            <span class="skill-badge">OSPF</span>
-            <span class="skill-badge">Configuration Cisco</span>
-            <span class="skill-badge">Diagnostic réseau</span>
-        </div>
-
-        <!-- CONCLUSION -->
-        <h3>🧠 Conclusion</h3>
-        <p>
-            Ce projet m’a permis de comprendre en profondeur le fonctionnement du routage
-            en IPv4 et IPv6, ainsi que les différences entre configuration statique et dynamique.
-        </p>
-
-    </div>
-
-</div>
-<div class="col-12 mb-4 portfolio-item">
-
-    <div class="project-network">
-
-        <!-- TITRE -->
-        <h2>🔐 Projet E6 SISR – Portail Captif pfSense pour forum stage/alternance</h2>
-
-        <!-- IMAGES DU PROJET -->
-        <div class="project-gallery mb-4">
-            <div class="row g-3">
-
-                <div class="col-12 col-md-6">
-                    <a href="img/portail_config.png" data-lightbox="projet-pfsense">
-                        <img class="img-fluid rounded w-100" src="img/portail_config.png" alt="Config portail captif">
-                    </a>
-                    <p class="text-center text-muted small">📸 Remplacer par : configuration du portail captif activé dans pfSense</p>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <a href="img/vouchers.png" data-lightbox="projet-pfsense">
-                        <img class="img-fluid rounded w-100" src="img/vouchers.png" alt="Vouchers générés">
-                    </a>
-                    <p class="text-center text-muted small">📸 Remplacer par : liste des vouchers/coupons générés dans pfSense</p>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <a href="img/portail_page.png" data-lightbox="projet-pfsense">
-                        <img class="img-fluid rounded w-100" src="img/portail_page.png" alt="Page du portail captif">
-                    </a>
-                    <p class="text-center text-muted small">📸 Remplacer par : page d'authentification du portail côté client</p>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <a href="img/acces_accorde.png" data-lightbox="projet-pfsense">
-                        <img class="img-fluid rounded w-100" src="img/acces_accorde.png" alt="Accès accordé">
-                    </a>
-                    <p class="text-center text-muted small">📸 Remplacer par : site accessible après saisie du voucher valide</p>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <a href="img/acces_refuse.png" data-lightbox="projet-pfsense">
-                        <img class="img-fluid rounded w-100" src="img/acces_refuse.png" alt="Accès refusé">
-                    </a>
-                    <p class="text-center text-muted small">📸 Remplacer par : message de blocage sans voucher</p>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <a href="img/session_active.png" data-lightbox="projet-pfsense">
-                        <img class="img-fluid rounded w-100" src="img/session_active.png" alt="Session active pfSense">
-                    </a>
-                    <p class="text-center text-muted small">📸 Remplacer par : session active dans Statut → Portail Captif</p>
-                </div>
-
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-content">
+            <div class="tl-meta">
+              <span class="tl-date">Mar 2023</span>
+              <span class="tl-company">Zemus — Le Kremlin-Bicêtre</span>
             </div>
+            <div class="tl-title">Développeur Junior (Stage)</div>
+            <ul class="tl-list">
+              <li>Développement d'une application</li>
+              <li>Contribution à un moteur de recherche</li>
+              <li>Travail en équipe Agile</li>
+            </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">Agile</span>
+              <span class="tl-tag">Développement</span>
+            </div>
+          </div>
         </div>
 
-        <!-- CONTEXTE -->
-        <h3>📋 Contexte du projet</h3>
-        <p>
-            Dans le cadre du <strong>forum stage/alternance</strong> organisé par l'établissement,
-            des entreprises partenaires viennent rencontrer les élèves. Ces visiteurs ont besoin
-            d'un accès Internet dédié et sécurisé, isolé du réseau pédagogique interne.
-            La solution retenue est un <strong>portail captif pfSense</strong> avec authentification
-            par vouchers (clés d'accès temporaires chiffrées).
-        </p>
+      </div>
+    </section>
 
-        <!-- DÉFINITIONS -->
-        <h3>📖 Définitions clés</h3>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Terme</th>
-                    <th>Définition</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>pfSense</strong></td>
-                    <td>Pare-feu open source basé sur FreeBSD. Il permet de gérer les règles réseau, le NAT, le DHCP et les portails captifs via une interface web.</td>
-                </tr>
-                <tr>
-                    <td><strong>Portail captif</strong></td>
-                    <td>Mécanisme qui intercepte toute connexion HTTP d'un utilisateur et le redirige vers une page d'authentification avant de lui accorder l'accès Internet.</td>
-                </tr>
-                <tr>
-                    <td><strong>Voucher / Coupon</strong></td>
-                    <td>Code d'accès unique et temporaire généré par pfSense. Chaque code ne peut être utilisé qu'une seule fois et expire après une durée définie.</td>
-                </tr>
-                <tr>
-                    <td><strong>RSA</strong></td>
-                    <td>Algorithme de chiffrement asymétrique utilisant une paire de clés (publique et privée). pfSense l'utilise pour chiffrer et sécuriser les vouchers générés.</td>
-                </tr>
-                <tr>
-                    <td><strong>Clé publique</strong></td>
-                    <td>Clé utilisée pour vérifier et déchiffrer les vouchers lors de l'authentification. Elle est stockée dans pfSense et accessible à tous.</td>
-                </tr>
-                <tr>
-                    <td><strong>Clé privée</strong></td>
-                    <td>Clé secrète utilisée uniquement pour générer les vouchers chiffrés. Elle ne doit jamais être partagée.</td>
-                </tr>
-                <tr>
-                    <td><strong>NAT (Network Address Translation)</strong></td>
-                    <td>Mécanisme qui traduit les adresses IP privées du réseau local en adresse IP publique pour permettre l'accès à Internet.</td>
-                </tr>
-                <tr>
-                    <td><strong>DHCP</strong></td>
-                    <td>Protocole qui attribue automatiquement une adresse IP à chaque machine qui se connecte au réseau.</td>
-                </tr>
-                <tr>
-                    <td><strong>WAN</strong></td>
-                    <td>Interface côté Internet (réseau étendu). C'est par cette interface que pfSense reçoit la connexion du FAI.</td>
-                </tr>
-                <tr>
-                    <td><strong>LAN</strong></td>
-                    <td>Interface côté réseau local (réseau interne). C'est sur cette interface que sont connectés les visiteurs dans ce projet.</td>
-                </tr>
-                <tr>
-                    <td><strong>VMware</strong></td>
-                    <td>Logiciel de virtualisation permettant de créer et gérer des machines virtuelles. Utilisé ici pour simuler pfSense et le poste client.</td>
-                </tr>
-                <tr>
-                    <td><strong>Host-Only (VMnet1)</strong></td>
-                    <td>Mode réseau VMware qui crée un réseau isolé entre la VM et le PC hôte, sans accès direct à Internet. Utilisé pour le LAN visiteurs.</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- PROJECTS -->
+    <section id="projects" class="reveal">
+      <div class="section-label">Réalisations</div>
+      <h2 class="section-title">Projets <span>Techniques</span></h2>
+      <div class="projects-grid">
 
-        <!-- OBJECTIF -->
-        <h3>🎯 Objectif</h3>
-        <p>
-            Mettre en place un réseau visiteurs contrôlé par un portail captif pfSense,
-            permettant de distribuer des clés d'accès uniques et sécurisées aux entreprises
-            le jour du forum, tout en protégeant le réseau interne de l'établissement.
-        </p>
-
-        <!-- ÉTAPES -->
-        <h3>🛠️ Étapes de réalisation</h3>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Étape</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>Installation et configuration de pfSense en VM (VMware)</td></tr>
-                <tr><td>2</td><td>Configuration des interfaces WAN (DHCP) et LAN visiteurs (192.168.204.254/24)</td></tr>
-                <tr><td>3</td><td>Activation du serveur DHCP sur le LAN visiteurs</td></tr>
-                <tr><td>4</td><td>Activation du portail captif sur l'interface LAN</td></tr>
-                <tr><td>5</td><td>Génération des clés RSA (512 bits) et création d'un rouleau de 20 vouchers</td></tr>
-                <tr><td>6</td><td>Création de la règle NAT sortant pour le réseau 192.168.204.0/24</td></tr>
-                <tr><td>7</td><td>Test depuis VM Debian : portail affiché, accès accordé avec voucher valide</td></tr>
-                <tr><td>8</td><td>Test de refus : accès bloqué sans voucher</td></tr>
-            </tbody>
-        </table>
-
-        <!-- ERREURS ET SOLUTIONS -->
-        <h3>⚠️ Erreurs rencontrées et solutions</h3>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Erreur</th>
-                    <th>Cause</th>
-                    <th>Solution</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>WebGUI inaccessible (timeout)</td>
-                    <td>Carte réseau LAN pas en Host-Only</td>
-                    <td>Changer la carte LAN en VMnet1 dans VMware</td>
-                </tr>
-                <tr>
-                    <td>Config portail non sauvegardée</td>
-                    <td>Clés RSA manquantes dans l'onglet Coupons</td>
-                    <td>Générer les clés RSA via le bouton intégré pfSense</td>
-                </tr>
-                <tr>
-                    <td>openssl genrsa 64 → error setting RSA length</td>
-                    <td>Taille de clé trop petite pour OpenSSL récent</td>
-                    <td>Utiliser 512 bits : <code>openssl genrsa 512</code></td>
-                </tr>
-                <tr>
-                    <td>VM Debian pas redirigée vers le portail</td>
-                    <td>Carte réseau sur VMnet8 au lieu de VMnet1</td>
-                    <td>Changer la carte réseau en VMnet1 dans VMware</td>
-                </tr>
-                <tr>
-                    <td>Pas de passerelle par défaut sur Debian</td>
-                    <td>DHCP pfSense ne pousse pas la passerelle</td>
-                    <td><code>ip route add default via 192.168.204.254</code></td>
-                </tr>
-                <tr>
-                    <td>Ping OK mais Firefox ne charge pas</td>
-                    <td>network.proxy.type = 5 dans Firefox</td>
-                    <td>Dans about:config, mettre network.proxy.type à 0</td>
-                </tr>
-                <tr>
-                    <td>Pas de NAT pour le réseau visiteurs</td>
-                    <td>Règle NAT automatique absente pour 192.168.204.0/24</td>
-                    <td>Créer une règle NAT sortant en mode Hybride dans pfSense</td>
-                </tr>
-                <tr>
-                    <td>PC hôte redirigé vers tableau de bord</td>
-                    <td>pfSense reconnaît l'admin, ne lui applique pas le portail</td>
-                    <td>Tester depuis une VM cliente séparée (Debian/Windows)</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- COMPÉTENCES -->
-        <h3>🎯 Compétences démontrées</h3>
-        <div class="skills">
-            <span class="skill-badge">Administration pfSense</span>
-            <span class="skill-badge">Portail Captif</span>
-            <span class="skill-badge">Génération de clés RSA</span>
-            <span class="skill-badge">Configuration NAT</span>
-            <span class="skill-badge">Virtualisation VMware</span>
-            <span class="skill-badge">Sécurisation réseau visiteurs</span>
-            <span class="skill-badge">Tests et dépannage réseau</span>
+        <div class="project-card full-width">
+          <div class="project-img-row">
+            <a href="pfsense sans voucher.png" target="_blank"><img src="pfsense sans voucher.png" alt="Config portail captif"></a>
+            <a href="ROULEAUX.png" target="_blank"><img src="ROULEAUX.png" alt="Vouchers générés"></a>
+            <a href="EXCEL CLES.png" target="_blank"><img src="EXCEL CLES.png" alt="Page portail captif"></a>
+            <a href="pfsensevm.png" target="_blank"><img src="pfsensevm.png" alt="Accès accordé"></a>
+            <a href="forum.png" target="_blank"><img src="forum.png" alt="Accès refusé"></a>
+          </div>
+          <div class="project-icon" style="background: rgba(99,179,237,0.12); color: var(--accent);">🔐</div>
+          <div class="project-title">Portail Captif pfSense</div>
+          <div class="project-desc">Mise en place d'un réseau visiteurs sécurisé pour le forum stage/alternance de l'établissement. Portail captif avec authentification par vouchers RSA chiffrés, isolation complète du réseau pédagogique interne via VMware.</div>
+          <div class="project-badges">
+            <span class="badge badge-blue">pfSense</span>
+            <span class="badge badge-blue">Portail Captif</span>
+            <span class="badge badge-purple">RSA 512-bit</span>
+            <span class="badge badge-green">NAT</span>
+            <span class="badge badge-orange">VMware</span>
+          </div>
         </div>
 
-    </div>
-
-</div>
-
-
-
-
-
-
+        <div class="project-card">
+          <div class="project-img-row">
+            <a href="img/Projet_SYSRES img.png" target="_blank"><img src="img/Projet_SYSRES img.png" alt="Projet VLAN"></a>
+            <a href="img/pkt projet sysres.jpeg" target="_blank"><img src="img/pkt projet sysres.jpeg" alt="Packet Tracer VLAN"></a>
+          </div>
+          <div class="project-icon" style="background: rgba(127,90,240,0.12); color: #b794f4;">🌐</div>
+          <div class="project-title">Architecture Multi-VLAN Avancée</div>
+          <div class="project-desc">Infrastructure réseau avec 4 VLANs (DEV, INFO, AD, WEB), routage inter-VLAN, AD/DNS/DHCP centralisé, serveur web Debian.</div>
+          <div class="project-badges">
+            <span class="badge badge-purple">Cisco 3560/2960</span>
+            <span class="badge badge-blue">OSPF</span>
+            <span class="badge badge-green">Active Directory</span>
+          </div>
         </div>
-    </div>
-</section>
-<!-- Portfolio End -->
-<!-- Veille Technologique Start -->
-<section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
-    <h1 class="title pb-3 mb-5">Veille Technologique</h1>
-    <h4 class="mb-4">IA générative appliquée à la sécurité informatique</h4>
 
-    <p class="mb-4">
-        La veille technologique permet d’anticiper les évolutions du secteur numérique. Dans mon cas, je me concentre 
-        sur l’impact de l’<span class="highlight">IA générative</span> en cybersécurité : un domaine en pleine mutation 
-        où les menaces et opportunités évoluent très rapidement.
-    </p>
+        <div class="project-card">
+          <div class="project-img-row">
+            <a href="img/mail/installation de postfix.png" target="_blank"><img src="img/mail/installation de postfix.png" alt="Postfix"></a>
+            <a href="img/mail/installation dovecot et config.png" target="_blank"><img src="img/mail/installation dovecot et config.png" alt="Dovecot"></a>
+            <a href="img/mail/certificat auto signé.png" target="_blank"><img src="img/mail/certificat auto signé.png" alt="Certificat TLS"></a>
+            <a href="img/mail/installation et activation de spam assasin.png" target="_blank"><img src="img/mail/installation et activation de spam assasin.png" alt="SpamAssassin"></a>
+          </div>
+          <div class="project-icon" style="background: rgba(44,182,125,0.12); color: var(--accent3);">📧</div>
+          <div class="project-title">Serveur de Messagerie Debian 13</div>
+          <div class="project-desc">Déploiement complet Postfix + Dovecot + SpamAssassin. Chiffrement TLS/SSL avec certificat auto-signé.</div>
+          <div class="project-badges">
+            <span class="badge badge-green">Postfix</span>
+            <span class="badge badge-green">Dovecot</span>
+            <span class="badge badge-blue">TLS/SSL</span>
+            <span class="badge badge-orange">SpamAssassin</span>
+          </div>
+        </div>
 
-    <!-- Objectifs -->
-    <div class="mb-5">
-        <span class="highlight"><h5 class="text-primary mb-3">🎯 Objectifs de la veille</h5></span>
-        <ul class="list-unstyled ps-3">
-            <li><i class="bi bi-check2-circle text-primary"></i> <strong>Anticiper les changements</strong> : détecter les technologies émergentes, innovations et évolutions législatives. <em>(Sources : École de Guerre Économique, Wikipédia)</em></li>
-            <li><i class="bi bi-check2-circle text-primary"></i> <strong>Innover</strong> : s’inspirer de pratiques existantes pour améliorer ses propres services. <em>(Source : Appvizer)</em></li>
-            <li><i class="bi bi-check2-circle text-primary"></i> <strong>Rester compétitif</strong> : suivre les concurrents et comprendre leurs atouts technologiques. <em>(Source : Wikipédia)</em></li>
-            <li><i class="bi bi-check2-circle text-primary"></i> <strong>Prendre de meilleures décisions</strong> : orienter la stratégie, les investissements et la R&D grâce aux informations récoltées. <em>(Source : École de Guerre Économique)</em></li>
-        </ul>
-    </div>
+        <div class="project-card full-width">
+          <div class="project-img-row single">
+            <a href="img/Capture d’écran site couronne.png" target="_blank"><img src="img/Capture d’écran site couronne.png" alt="Site OFC Couronnes"></a>
+          </div>
+          <div class="project-icon" style="background: rgba(237,137,54,0.12); color: #f6ad55;">⚽</div>
+          <div class="project-title">Site Web OFC Couronnes U8</div>
+          <div class="project-desc">Réalisation d'un site vitrine pour le club de football amateur OFC Couronnes. Hébergé sur GitHub Pages, développé en HTML/CSS/JS, responsive et géré avec Git.</div>
+          <div class="project-badges">
+            <span class="badge badge-orange">HTML/CSS/JS</span>
+            <span class="badge badge-green">GitHub Pages</span>
+            <span class="badge badge-blue">Responsive</span>
+            <span class="badge badge-purple">Git</span>
+          </div>
+          <a href="https://albertobrt.github.io/u8-ofccouronne/" target="_blank" class="project-link">
+            Voir le site <i class="fa fa-arrow-right"></i>
+          </a>
+        </div>
 
-    <!-- Étapes -->
-    <div class="mb-5">
-        <span class="highlight"><h5 class="text-primary mb-3">🔍 Étapes de la veille</h5></span>
-        <ol class="ps-3">
-            <li><strong>Définir le périmètre</strong> : cibler l’IA générative appliquée à la cybersécurité (ex. phishing, SOC automatisés). <em>(Appvizer)</em></li>
-            <li><strong>Collecte d’informations</strong> : articles, brevets, blogs spécialisés, conférences (Black Hat, DefCon, FIC). <em>(Wikipédia, CNRST, EGE)</em></li>
-            <li><strong>Tri et filtrage</strong> : conserver uniquement les données fiables et pertinentes. <em>(Wikipédia)</em></li>
-            <li><strong>Analyse</strong> : identifier tendances, signaux faibles (attaques par IA), signaux forts (solutions EDR/XDR avec IA). <em>(Wikipédia)</em></li>
-            <li><strong>Diffusion</strong> : rédaction de rapports et notes de synthèse pour décideurs. <em>(Wikipédia)</em></li>
-            <li><strong>Mise à jour continue</strong> : ajustement régulier du périmètre et des sources pour rester à jour.</li>
-        </ol>
-    </div>
+        <div class="project-card full-width">
+          <div class="project-img-row single">
+            <a href="lovelyangel.png" target="_blank"><img src="lovelyangel.png" alt="Site Lovely Angel Events"></a>
+          </div>
+          <div class="project-icon" style="background: rgba(255,192,203,0.12); color: #f9a8d4;">💐</div>
+          <div class="project-title">Site Web Lovely Angel Events</div>
+          <div class="project-desc">Création complète d'un site vitrine pour une entreprise de décoration et d'événementiel. Design élégant blanc & or avec effets de brillance, catalogue de location, section décoration funèbre, formulaire de contact Formspree et design entièrement responsive.</div>
+          <div class="project-badges">
+            <span class="badge badge-pink">HTML/CSS/JS</span>
+            <span class="badge badge-purple">Design UI/UX</span>
+            <span class="badge badge-blue">Formspree</span>
+            <span class="badge badge-green">Responsive</span>
+            <span class="badge badge-orange">Catalogue en ligne</span>
+          </div>
+          <a href="https://www.lovelyangel.fr/" target="_blank" class="project-link">
+            Voir le site <i class="fa fa-arrow-right"></i>
+          </a>
+        </div>
 
-    <!-- Exemple -->
-    <div class="mb-5">
-        <span class="highlight"><h5 class="text-primary mb-3">📌 Exemple concret</h5></span>
-        <p>
-            Un exemple marquant est la montée des attaques de <strong>phishing générées par IA</strong>, qui deviennent 
-            de plus en plus crédibles et difficiles à détecter. En parallèle, de grands acteurs de la cybersécurité 
-            comme Palo Alto Networks, Darktrace ou CrowdStrike développent des solutions intégrant l’IA générative 
-            pour automatiser la détection et la réponse aux incidents.
-        </p>
-    </div>
-     <!-- Flux RSS Veille Technologique -->
-<div class="mt-5 pt-4 border-top">
-  <h5 class="text-primary mb-4">📡 Actualités en direct – IA & Cybersécurité</h5>
+      </div>
+    </section>
 
-  <div id="rss-feed" class="row g-3">
-    <div class="text-center text-muted py-4">
-      <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-      Chargement des actualités...
-    </div>
-  </div>
+    <!-- CERTIFICATIONS -->
+    <section id="certifs" class="reveal">
+      <div class="section-label">Diplômes & Certifications</div>
+      <h2 class="section-title">Mes <span>Certifications</span></h2>
+      <div class="certs-grid">
+        <div class="cert-card">
+          <img src="img/certif pix 2006.png" alt="PIX 2026" class="cert-img">
+          <div class="cert-name">Certification PIX</div>
+          <div class="cert-org">Compétences numériques</div>
+          <div class="cert-year">2026</div>
+        </div>
+        <div class="cert-card">
+          <img src="img/certif pix.png" alt="PIX 2024" class="cert-img">
+          <div class="cert-name">Certification PIX</div>
+          <div class="cert-org">Compétences numériques</div>
+          <div class="cert-year">2024</div>
+        </div>
+        <div class="cert-card">
+          <img src="img/cnda/certif cnil module 6.png" alt="CNIL Module 6" class="cert-img">
+          <div class="cert-name">Module 6 CNIL</div>
+          <div class="cert-org">Travail et données personnelles</div>
+          <div class="cert-year">RGPD</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VEILLE TECHNO -->
+    <section id="veille" class="reveal">
+      <div class="section-label">Intelligence Économique</div>
+      <h2 class="section-title">Veille <span>Technologique</span></h2>
+      <p class="about-text" style="margin-bottom: 28px;">Thème central : <strong>IA générative appliquée à la cybersécurité</strong> — un domaine en mutation rapide où les menaces et solutions évoluent en temps réel.</p>
+      <div class="veille-card">
+        <div class="veille-topic">
+          <div class="veille-num">01</div>
+          <div>
+            <div class="veille-t">Phishing génératif & deepfakes</div>
+            <div class="veille-d">Les attaques de spear-phishing générées par LLM deviennent quasi indétectables. Acteurs : OpenAI Red Team, ANSSI rapports 2024.</div>
+          </div>
+        </div>
+        <div class="veille-topic">
+          <div class="veille-num">02</div>
+          <div>
+            <div class="veille-t">SOC automatisés (IA + XDR)</div>
+            <div class="veille-d">CrowdStrike Charlotte AI, Palo Alto XSIAM — détection & réponse aux incidents en temps réel via modèles génératifs spécialisés.</div>
+          </div>
+        </div>
+        <div class="veille-topic">
+          <div class="veille-num">03</div>
+          <div>
+            <div class="veille-t">Réglementation & conformité IA (EU AI Act)</div>
+            <div class="veille-d">L'EU AI Act 2024 classe les systèmes IA en cybersécurité dans la catégorie "haut risque", impliquant de nouvelles obligations de conformité.</div>
+          </div>
+        </div>
+        <div class="veille-topic">
+          <div class="veille-num">04</div>
+          <div>
+            <div class="veille-t">Outils de surveillance (Darktrace, Wazuh)</div>
+            <div class="veille-d">Intégration de modèles d'apprentissage non supervisé pour la détection d'anomalies comportementales sur les réseaux d'entreprise.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="reveal">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Me <span>Contacter</span></h2>
+      <div class="contact-grid">
+        <a href="https://www.linkedin.com/in/alberto-luemba-bembe-84b207324/" target="_blank" class="contact-item">
+          <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-val">Alberto Luemba Bembe</div>
+          </div>
+        </a>
+        <a href="https://github.com/albertobrt" target="_blank" class="contact-item">
+          <div class="contact-icon"><i class="fab fa-github"></i></div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-val">github.com/albertobrt</div>
+          </div>
+        </a>
+        <a href="CV ALBERTO 2026.pdf" class="contact-item" download>
+          <div class="contact-icon"><i class="fa fa-file-pdf"></i></div>
+          <div>
+            <div class="contact-label">Curriculum Vitae</div>
+            <div class="contact-val">Mon CV</div>
+          </div>
+        </a>
+        <a href="mailto:albertolbembe@gmail.com" class="contact-item">
+          <div class="contact-icon"><i class="fa fa-envelope"></i></div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-val">albertolbembe@gmail.com</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <span>© 2026 <span>Alberto LB</span> — Portfolio</span>
+      <span>Montreuil sous bois, Île-de-France</span>
+    </footer>
+
+  </main>
 </div>
 
 <script>
-  async function loadGoogleNews() {
-    const feed = document.getElementById("rss-feed");
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('follower');
+  let mx = 0, my = 0, fx = 0, fy = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function loop() {
+    fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+    follower.style.transform = `translate(${fx - 18}px, ${fy - 18}px)`;
+    requestAnimationFrame(loop);
+  })();
 
-    const rssUrl = "https://news.google.com/rss/search?q=intelligence+artificielle+cybersecurite&hl=fr&gl=FR&ceid=FR:fr";
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=public&count=6`;
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
 
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
+  // Active nav on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
 
-      console.log("RSS2JSON response:", data);
+  buildLightbox();
+</script>
 
-      if (!data.items || data.items.length === 0) {
-        throw new Error("Aucun article reçu");
-      }
+<!-- LIGHTBOX OVERLAY -->
+<div id="lightbox">
+  <button id="lb-close" title="Fermer (Échap)"><i class="fa fa-times"></i></button>
+  <button id="lb-prev" title="Précédent (←)"><i class="fa fa-chevron-left"></i></button>
+  <button id="lb-next" title="Suivant (→)"><i class="fa fa-chevron-right"></i></button>
+  <div id="lb-counter"></div>
+  <div id="lb-inner">
+    <img id="lb-img" src="" alt="Zoom">
+  </div>
+</div>
 
-      feed.innerHTML = data.items.map(item => {
-        const date = new Date(item.pubDate).toLocaleDateString("fr-FR", {
-          day: "2-digit", month: "short", year: "numeric"
-        });
+<style>
+  #lightbox {
+    display: none;
+    position: fixed; inset: 0; z-index: 99999;
+    background: rgba(4, 8, 16, 0.96);
+    backdrop-filter: blur(16px);
+    align-items: center; justify-content: center;
+    cursor: zoom-out;
+    animation: lbFadeIn 0.25s ease;
+  }
+  @keyframes lbFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  #lightbox.active { display: flex; }
 
-        const description = item.description
-          ? item.description.replace(/<[^>]*>/g, "").substring(0, 120) + "..."
-          : "Pas de description disponible.";
-
-        const image = item.thumbnail
-          ? `<img src="${item.thumbnail}" class="card-img-top" style="height:140px;object-fit:cover;" onerror="this.style.display='none'">`
-          : "";
-
-        return `
-          <div class="col-md-6">
-            <div class="card bg-dark border-secondary h-100 shadow-sm">
-              ${image}
-              <div class="card-body">
-                <span class="badge bg-primary mb-2">🔐 Cybersécurité & IA</span>
-                <h6 class="card-title text-light">${item.title}</h6>
-                <p class="card-text text-muted small">${description}</p>
-                <small class="text-muted">🗞️ ${item.author || "Google News"}</small>
-              </div>
-              <div class="card-footer d-flex justify-content-between align-items-center border-secondary">
-                <small class="text-muted">📅 ${date}</small>
-                <a href="${item.link}" target="_blank" class="btn btn-sm btn-outline-primary">Lire →</a>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join("");
-
-    } catch (error) {
-      console.error(error);
-
-      // Fallback : lien direct Google News
-      feed.innerHTML = `
-        <div class="col-12 text-center py-3">
-          <p class="text-warning mb-3"></p>
-          <a href="https://news.google.com/search?q=IA+cybersécurité&hl=fr" 
-             target="_blank" class="btn btn-outline-primary">
-            🔗 Voir les actualités sur Google News
-          </a>
-        </div>
-      `;
-    }
+  #lb-inner {
+    max-width: 92vw; max-height: 88vh;
+    display: flex; align-items: center; justify-content: center;
+    cursor: default;
+  }
+  #lb-img {
+    max-width: 92vw; max-height: 88vh;
+    object-fit: contain;
+    border-radius: 14px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(99,179,237,0.1);
+    transition: transform 0.3s cubic-bezier(.22,.68,0,1.2), opacity 0.3s ease;
+    user-select: none;
   }
 
-  loadGoogleNews();
+  #lb-close {
+    position: fixed; top: 20px; right: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; font-size: 1rem;
+    cursor: pointer; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.25s;
+  }
+  #lb-close:hover { background: rgba(99,179,237,0.25); transform: rotate(90deg) scale(1.1); }
+
+  #lb-prev, #lb-next {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.13);
+    color: #fff; font-size: 1rem;
+    cursor: pointer; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #lb-prev { left: 20px; }
+  #lb-next { right: 20px; }
+  #lb-prev:hover { background: rgba(99,179,237,0.25); transform: translateY(-50%) translateX(-4px); }
+  #lb-next:hover { background: rgba(99,179,237,0.25); transform: translateY(-50%) translateX(4px); }
+
+  #lb-counter {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    font-size: 0.75rem; color: rgba(255,255,255,0.5);
+    font-family: 'Syne', sans-serif; letter-spacing: 0.12em;
+    background: rgba(0,0,0,0.5); padding: 6px 16px; border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* Zoom hover effect on all clickable images */
+  .project-img-row img,
+  .tl-imgs img,
+  .cert-img,
+  .avatar-wrap img {
+    cursor: zoom-in !important;
+    transition: transform 0.35s cubic-bezier(.22,.68,0,1.1), filter 0.35s ease, box-shadow 0.35s ease !important;
+  }
+  .project-img-row img:hover,
+  .tl-imgs img:hover,
+  .cert-img:hover,
+  .avatar-wrap img:hover {
+    transform: scale(1.07) !important;
+    filter: brightness(1.05) !important;
+    box-shadow: 0 12px 40px rgba(99,179,237,0.2) !important;
+    z-index: 2;
+    position: relative;
+  }
+</style>
+
+<script>
+  // ===== LIGHTBOX — exécuté après que le DOM du lightbox est présent =====
+  const allImgs = [];
+  let currentIdx = 0;
+
+  function buildLightbox() {
+    const selectors = '.project-img-row img, .tl-imgs img, .cert-img, .avatar-wrap img';
+    document.querySelectorAll(selectors).forEach((img) => {
+      const idx = allImgs.length;
+      allImgs.push(img);
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        currentIdx = idx;
+        openLightbox(img.src);
+      });
+    });
+  }
+
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    lbImg.style.transition = 'none';
+    lbImg.src = src;
+    lbImg.style.transform = 'scale(0.88)';
+    lbImg.style.opacity = '0';
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        lbImg.style.transition = 'transform 0.32s cubic-bezier(.22,.68,0,1.2), opacity 0.28s ease';
+        lbImg.style.transform = 'scale(1)';
+        lbImg.style.opacity = '1';
+      });
+    });
+    document.getElementById('lb-counter').textContent = (currentIdx + 1) + ' / ' + allImgs.length;
+  }
+
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    lbImg.style.transform = 'scale(0.9)';
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lb.classList.remove('active');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }, 260);
+  }
+
+  function navigate(dir) {
+    currentIdx = (currentIdx + dir + allImgs.length) % allImgs.length;
+    const lbImg = document.getElementById('lb-img');
+    lbImg.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+    lbImg.style.transform = `translateX(${dir > 0 ? '50px' : '-50px'}) scale(0.95)`;
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lbImg.src = allImgs[currentIdx].src;
+      lbImg.style.transition = 'none';
+      lbImg.style.transform = `translateX(${dir > 0 ? '-30px' : '30px'}) scale(0.95)`;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          lbImg.style.transition = 'transform 0.3s cubic-bezier(.22,.68,0,1.2), opacity 0.25s ease';
+          lbImg.style.transform = 'translateX(0) scale(1)';
+          lbImg.style.opacity = '1';
+        });
+      });
+      document.getElementById('lb-counter').textContent = (currentIdx + 1) + ' / ' + allImgs.length;
+    }, 200);
+  }
+
+  // Event listeners
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target.id === 'lightbox' || e.target.id === 'lb-inner') closeLightbox();
+  });
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', () => navigate(-1));
+  document.getElementById('lb-next').addEventListener('click', () => navigate(1));
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') navigate(1);
+    if (e.key === 'ArrowLeft') navigate(-1);
+  });
+
+  buildLightbox();
 </script>
-    <!-- Sources -->
-    <div class="pt-3 border-top">
-        <h6 class="text-muted">Sources :</h6>
-        <ul class="list-unstyled ps-3 text-muted">
-            <li>École de Guerre Économique : <a href="https://www.ewg.fr" target="_blank">www.ewg.fr</a></li>
-            <li>Wikipédia : <a href="https://www.wikipedia.org" target="_blank">www.wikipedia.org</a></li>
-            <li>Appvizer : <a href="https://www.appvizer.fr" target="_blank">www.appvizer.fr</a></li>
-            <li>Google News RSS</li>
-        </ul>
-    </div>
-</section>
-<!-- Veille Technologique End -->
 
-
-
-                    <!-- Footer Start -->
-                    <section class="wow fadeIn" data-wow-delay="0.1s">
-                        <div class="bg-secondary text-light text-center p-5">
-                            <div class="d-flex justify-content-center mb-4">
-                                <a class="btn btn-dark btn-square mx-1" href="https://github.com/albertobrt"><i class="fab fa-github"></i></a>
-                                <a class="btn btn-dark btn-square mx-1" href="https://www.linkedin.com/in/alberto-luemba-bembe-84b207324/"><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-							<p class="m-0">&copy; 2025 Alberto. Tous droits réservés.</p>
-                        </div>
-                    </section>
-                    <!-- Footer End -->
-                </div>
-            </div>
-        </div>
-
-        
-        <!-- Back to Top -->
-        <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
-        
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/wow/wow.min.js"></script>
-        <script src="lib/typed/typed.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/counterup/counterup.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/isotope/isotope.pkgd.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
-
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-    </body>
+</body>
 </html>
