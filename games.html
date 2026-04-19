@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini-Jeux — Alberto LB</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c14; --surface: #0d1422; --surface2: #131c2e;
+    --border: rgba(99,179,237,0.12);
+    --accent: #63b3ed; --accent2: #7f5af0; --accent3: #2cb67d;
+    --text: #e8edf5; --muted: #6b7fa3;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 60px 24px;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(99,179,237,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,179,237,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0;
+  }
+  .back-btn {
+    position: fixed; top: 24px; left: 24px;
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none;
+    padding: 9px 16px; border-radius: 10px;
+    font-size: 0.82rem; font-weight: 500;
+    transition: all 0.2s; z-index: 10;
+  }
+  .back-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  .hub-header { text-align: center; margin-bottom: 64px; position: relative; z-index: 1; }
+  .hub-label {
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent2); font-weight: 600; margin-bottom: 12px;
+  }
+  .hub-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 800; color: #fff; letter-spacing: -0.03em;
+    line-height: 1.1; margin-bottom: 16px;
+  }
+  .hub-title span { color: var(--accent2); }
+  .hub-sub { font-size: 0.95rem; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 960px; width: 100%;
+    position: relative; z-index: 1;
+  }
+  .game-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 36px 28px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 16px;
+    position: relative; overflow: hidden;
+    transition: all 0.35s cubic-bezier(.22,.68,0,1.1);
+    cursor: pointer; text-decoration: none; color: inherit;
+  }
+  .game-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--card-glow);
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .game-card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-line);
+    transform: scaleX(0); transition: transform 0.35s;
+    transform-origin: left;
+  }
+  .game-card:hover { transform: translateY(-8px); border-color: var(--card-color); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+  .game-card:hover::before { opacity: 1; }
+  .game-card:hover::after { transform: scaleX(1); }
+
+  .game-card:nth-child(1) {
+    --card-color: #2cb67d;
+    --card-glow: linear-gradient(135deg, rgba(44,182,125,0.07), transparent);
+    --card-line: linear-gradient(90deg, #2cb67d, transparent);
+  }
+  .game-card:nth-child(2) {
+    --card-color: #f6ad55;
+    --card-glow: linear-gradient(135deg, rgba(246,173,85,0.07), transparent);
+    --card-line: linear-gradient(90deg, #f6ad55, transparent);
+  }
+  .game-card:nth-child(3) {
+    --card-color: #63b3ed;
+    --card-glow: linear-gradient(135deg, rgba(99,179,237,0.07), transparent);
+    --card-line: linear-gradient(90deg, #63b3ed, transparent);
+  }
+
+  .game-emoji {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 20px var(--card-color));
+    transition: transform 0.35s cubic-bezier(.22,.68,0,1.4);
+  }
+  .game-card:hover .game-emoji { transform: scale(1.2) rotate(-5deg); }
+
+  .game-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem; font-weight: 800; color: #fff;
+  }
+  .game-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+
+  .game-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .game-tag {
+    font-size: 0.68rem; padding: 3px 10px;
+    border-radius: 6px; font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    color: var(--muted);
+  }
+
+  .game-btn {
+    margin-top: 8px;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 0.82rem; font-weight: 700;
+    background: var(--card-color);
+    color: #080c14;
+    border: none; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .game-card:hover .game-btn { filter: brightness(1.1); transform: scale(1.05); }
+
+  @media (max-width: 768px) {
+    .games-grid { grid-template-columns: 1fr; max-width: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn"><i class="fa fa-arrow-left"></i> Retour au Portfolio</a>
+
+<header class="hub-header">
+  <div class="hub-label">⚡ Zone Gaming</div>
+  <h1 class="hub-title">Mini-<span>Jeux</span></h1>
+  <p class="hub-sub">3 jeux intégrés directement dans le portfolio. Thèmes cyber, leaderboard local, difficulté progressive.</p>
+</header>
+
+<div class="games-grid">
+
+  <a href="snake.html" class="game-card">
+    <div class="game-emoji">🐍</div>
+    <div class="game-name">Snake Cyber</div>
+    <div class="game-desc">Thème hacker avec grille néon, particules et effets visuels. Vitesse progressive à chaque score.</div>
+    <div class="game-tags">
+      <span class="game-tag">Cyber</span>
+      <span class="game-tag">Néon</span>
+      <span class="game-tag">Score</span>
+    </div>
+    <button class="game-btn">Jouer</button>
+  </a>
+
+  <a href="2048.html" class="game-card">
+    <div class="game-emoji">🧠</div>
+    <div class="game-name">2048</div>
+    <div class="game-desc">Le classique revisité avec leaderboard local, animations fluides et thème sombre premium.</div>
+    <div class="game-tags">
+      <span class="game-tag">Puzzle</span>
+      <span class="game-tag">Leaderboard</span>
+      <span class="game-tag">Tactique</span>
+    </div>
+    <button class="game-btn">Jouer</button>
+  </a>
+
+  <a href="quiz.html" class="game-card">
+    <div class="game-emoji">🔐</div>
+    <div class="game-name">Quiz Cyber</div>
+    <div class="game-desc">3 niveaux progressifs sur la cybersécurité. 10 questions par niveau avec timer, score et explications.</div>
+    <div class="game-tags">
+      <span class="game-tag">Débutant</span>
+      <span class="game-tag">Expert</span>
+      <span class="game-tag">Timer</span>
+    </div>
+    <button class="game-btn">Jouer</button>
+  </a>
+
+</div>
+
+</body>
+</html>
